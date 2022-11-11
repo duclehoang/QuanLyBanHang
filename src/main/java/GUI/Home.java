@@ -105,6 +105,17 @@ public class Home extends javax.swing.JFrame {
         lblTodateOrderDetails = new javax.swing.JLabel();
         lblFromdateOrderDetails = new javax.swing.JLabel();
         jPanelThongKe = new javax.swing.JPanel();
+        jDateChooserFormDateThongKe = new com.toedter.calendar.JDateChooser();
+        jDateChooserToDateThongke = new com.toedter.calendar.JDateChooser();
+        lblFromThongke = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jScrollBar4 = new javax.swing.JScrollBar();
+        jLabel7 = new javax.swing.JLabel();
+        lblTongDonThongKE = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        lblTongTienThongKe = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Quản Lý Bán Hàng");
@@ -450,17 +461,47 @@ public class Home extends javax.swing.JFrame {
         jTabbedPane.addTab("Chi tiết Hóa Đơn", new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\receipt_40px.png"), jPanelOrderDetais); // NOI18N
 
         jPanelThongKe.setBackground(new java.awt.Color(204, 204, 255));
+        jPanelThongKe.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanelThongKe.add(jDateChooserFormDateThongKe, new org.netbeans.lib.awtextra.AbsoluteConstraints(191, 86, 141, 34));
+        jPanelThongKe.add(jDateChooserToDateThongke, new org.netbeans.lib.awtextra.AbsoluteConstraints(472, 86, 148, 34));
 
-        javax.swing.GroupLayout jPanelThongKeLayout = new javax.swing.GroupLayout(jPanelThongKe);
-        jPanelThongKe.setLayout(jPanelThongKeLayout);
-        jPanelThongKeLayout.setHorizontalGroup(
-            jPanelThongKeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1032, Short.MAX_VALUE)
-        );
-        jPanelThongKeLayout.setVerticalGroup(
-            jPanelThongKeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
-        );
+        lblFromThongke.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblFromThongke.setText("From Date :");
+        jPanelThongKe.add(lblFromThongke, new org.netbeans.lib.awtextra.AbsoluteConstraints(103, 86, 76, 34));
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel1.setText("To date :");
+        jPanelThongKe.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(405, 86, 55, 34));
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Order ID", "Vegetable ID", "Unit Sale", "Date Sale", "Total"
+            }
+        ));
+        jScrollPane6.setViewportView(jTable2);
+
+        jPanelThongKe.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, 860, -1));
+        jPanelThongKe.add(jScrollBar4, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 220, 20, 390));
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel7.setText("Tổng đơn bán được :");
+        jPanelThongKe.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, -1, -1));
+
+        lblTongDonThongKE.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanelThongKe.add(lblTongDonThongKE, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 146, 150, 30));
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel9.setText("Tổng Tiền :");
+        jPanelThongKe.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 150, 130, 30));
+
+        lblTongTienThongKe.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanelThongKe.add(lblTongTienThongKe, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 146, 150, 30));
 
         jTabbedPane.addTab("Thống Kê ", new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\analytics_40px.png"), jPanelThongKe); // NOI18N
 
@@ -577,13 +618,18 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooserFormDateThongKe;
     private com.toedter.calendar.JDateChooser jDateChooserFrom;
+    private com.toedter.calendar.JDateChooser jDateChooserToDateThongke;
     private com.toedter.calendar.JDateChooser jDateChooserTodate;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanelHoaDon;
     private javax.swing.JPanel jPanelKhachHang;
     private javax.swing.JPanel jPanelNhapHang;
@@ -592,20 +638,24 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollBar jScrollBar2;
     private javax.swing.JScrollBar jScrollBar3;
+    private javax.swing.JScrollBar jScrollBar4;
     private javax.swing.JScrollBar jScrollBarOrderDetails;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTableCustomers;
     private javax.swing.JTable jTableNhapHang;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblAddressCustomer;
     private javax.swing.JLabel lblAmountNhapHang;
     private javax.swing.JLabel lblCiTyCustomer;
+    private javax.swing.JLabel lblFromThongke;
     private javax.swing.JLabel lblFromdateOrderDetails;
     private javax.swing.JLabel lblFullNameCustomer;
     private javax.swing.JLabel lblNoteOrder;
@@ -615,6 +665,8 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel lblSearch;
     private javax.swing.JLabel lblSearchOrder;
     private javax.swing.JLabel lblTodateOrderDetails;
+    private javax.swing.JLabel lblTongDonThongKE;
+    private javax.swing.JLabel lblTongTienThongKe;
     private javax.swing.JLabel lblUintOrder;
     private javax.swing.JLabel lblUnit;
     private javax.swing.JLabel lblVegetable;
