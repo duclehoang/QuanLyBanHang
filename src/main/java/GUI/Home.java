@@ -71,7 +71,6 @@ public class Home extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         lblVegetableIDOrder = new javax.swing.JLabel();
@@ -94,7 +93,17 @@ public class Home extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         lblSearchOrder = new javax.swing.JLabel();
         txtSearchOrder = new javax.swing.JTextField();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jPanelOrderDetais = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tblOrderdetails = new javax.swing.JTable();
+        jScrollBarOrderDetails = new javax.swing.JScrollBar();
+        lblSearch = new javax.swing.JLabel();
+        txtSearchOrderdetails = new javax.swing.JTextField();
+        jDateChooserFrom = new com.toedter.calendar.JDateChooser();
+        jDateChooserTodate = new com.toedter.calendar.JDateChooser();
+        lblTodateOrderDetails = new javax.swing.JLabel();
+        lblFromdateOrderDetails = new javax.swing.JLabel();
         jPanelThongKe = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -306,12 +315,11 @@ public class Home extends javax.swing.JFrame {
         jPanelHoaDon.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(89, 59, 77, 34));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanelHoaDon.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(178, 59, 183, 34));
+        jPanelHoaDon.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(178, 59, 200, 34));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel3.setText("Date :");
         jPanelHoaDon.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(104, 127, 62, 29));
-        jPanelHoaDon.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(178, 127, 241, 29));
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel4.setText("Total :");
@@ -337,7 +345,7 @@ public class Home extends javax.swing.JFrame {
         lblUintOrder.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblUintOrder.setText("Unit :");
         jPanelHoaDon.add(lblUintOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(463, 176, 86, -1));
-        jPanelHoaDon.add(txtUnitOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(561, 169, 73, 30));
+        jPanelHoaDon.add(txtUnitOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(561, 169, 110, 30));
 
         lblPriceOrder.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblPriceOrder.setText("Price :");
@@ -373,17 +381,17 @@ public class Home extends javax.swing.JFrame {
         btnAddOrder.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\add_50px.png")); // NOI18N
         btnAddOrder.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnAddOrder.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanelHoaDon.add(btnAddOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 40, 50, 50));
+        jPanelHoaDon.add(btnAddOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 40, 60, 50));
 
         btnDeleteOrder.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\remove_50px.png")); // NOI18N
         btnDeleteOrder.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnDeleteOrder.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanelHoaDon.add(btnDeleteOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 40, 50, 50));
+        jPanelHoaDon.add(btnDeleteOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 40, -1, 50));
 
         jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\pencil_drawing_50px.png")); // NOI18N
         jButton2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanelHoaDon.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 110, 50, 50));
+        jPanelHoaDon.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 110, 60, 50));
 
         jButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\reset_50px.png")); // NOI18N
         jButton3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -397,20 +405,47 @@ public class Home extends javax.swing.JFrame {
         jPanelHoaDon.add(lblSearchOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 320, 30, 30));
         jPanelHoaDon.add(txtSearchOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 320, 190, 30));
 
+        jDateChooser1.setDateFormatString("dd-MM-yyyy");
+        jPanelHoaDon.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, 200, 30));
+
         jTabbedPane.addTab("Hóa Đơn", new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\purchase_order_40px.png"), jPanelHoaDon); // NOI18N
 
         jPanelOrderDetais.setBackground(new java.awt.Color(204, 204, 255));
+        jPanelOrderDetais.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout jPanelOrderDetaisLayout = new javax.swing.GroupLayout(jPanelOrderDetais);
-        jPanelOrderDetais.setLayout(jPanelOrderDetaisLayout);
-        jPanelOrderDetaisLayout.setHorizontalGroup(
-            jPanelOrderDetaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1032, Short.MAX_VALUE)
-        );
-        jPanelOrderDetaisLayout.setVerticalGroup(
-            jPanelOrderDetaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
-        );
+        tblOrderdetails.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Order ID", "Vegetable ID", "Vegetable Name", "Quantity", "Price", "Date"
+            }
+        ));
+        jScrollPane5.setViewportView(tblOrderdetails);
+
+        jPanelOrderDetais.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 890, -1));
+        jPanelOrderDetais.add(jScrollBarOrderDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 150, 20, 400));
+
+        lblSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/search_20px.png"))); // NOI18N
+        lblSearch.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanelOrderDetais.add(lblSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 60, 40, 30));
+        jPanelOrderDetais.add(txtSearchOrderdetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(703, 62, 200, 30));
+
+        jDateChooserFrom.setDateFormatString("dd-MM-yyyy");
+        jPanelOrderDetais.add(jDateChooserFrom, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 120, 30));
+
+        jDateChooserTodate.setDateFormatString("dd-MM-yyyy");
+        jPanelOrderDetais.add(jDateChooserTodate, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 60, 130, 30));
+
+        lblTodateOrderDetails.setText("To date :");
+        jPanelOrderDetais.add(lblTodateOrderDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, -1, 20));
+
+        lblFromdateOrderDetails.setText("From date :");
+        jPanelOrderDetais.add(lblFromdateOrderDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, -1, 20));
 
         jTabbedPane.addTab("Chi tiết Hóa Đơn", new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\receipt_40px.png"), jPanelOrderDetais); // NOI18N
 
@@ -541,6 +576,9 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooserFrom;
+    private com.toedter.calendar.JDateChooser jDateChooserTodate;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -554,30 +592,35 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollBar jScrollBar2;
     private javax.swing.JScrollBar jScrollBar3;
+    private javax.swing.JScrollBar jScrollBarOrderDetails;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTableCustomers;
     private javax.swing.JTable jTableNhapHang;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblAddressCustomer;
     private javax.swing.JLabel lblAmountNhapHang;
     private javax.swing.JLabel lblCiTyCustomer;
+    private javax.swing.JLabel lblFromdateOrderDetails;
     private javax.swing.JLabel lblFullNameCustomer;
     private javax.swing.JLabel lblNoteOrder;
     private javax.swing.JLabel lblPasswordCustomer;
     private javax.swing.JLabel lblPriceNhapHang;
     private javax.swing.JLabel lblPriceOrder;
+    private javax.swing.JLabel lblSearch;
     private javax.swing.JLabel lblSearchOrder;
+    private javax.swing.JLabel lblTodateOrderDetails;
     private javax.swing.JLabel lblUintOrder;
     private javax.swing.JLabel lblUnit;
     private javax.swing.JLabel lblVegetable;
     private javax.swing.JLabel lblVegetableIDOrder;
     private javax.swing.JLabel lblVegetableNameOrder;
+    private javax.swing.JTable tblOrderdetails;
     private javax.swing.JTextArea texAreaNoteOrder;
     private javax.swing.JTextField txtAddressCustomers;
     private javax.swing.JTextField txtAmountNhapHang;
@@ -590,6 +633,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTextField txtSearchCustomers;
     private javax.swing.JTextField txtSearchNhapHang;
     private javax.swing.JTextField txtSearchOrder;
+    private javax.swing.JTextField txtSearchOrderdetails;
     private javax.swing.JTextField txtUnitNhapHang;
     private javax.swing.JTextField txtUnitOrder;
     private javax.swing.JTextField txtVegetableIDOrder;
