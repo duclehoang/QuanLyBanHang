@@ -98,12 +98,12 @@ public class Home extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         tblOrderdetails = new javax.swing.JTable();
         jScrollBarOrderDetails = new javax.swing.JScrollBar();
-        lblSearch = new javax.swing.JLabel();
         txtSearchOrderdetails = new javax.swing.JTextField();
         jDateChooserFrom = new com.toedter.calendar.JDateChooser();
         jDateChooserTodate = new com.toedter.calendar.JDateChooser();
         lblTodateOrderDetails = new javax.swing.JLabel();
         lblFromdateOrderDetails = new javax.swing.JLabel();
+        btnSearchOrderDetails = new javax.swing.JButton();
         jPanelThongKe = new javax.swing.JPanel();
         jDateChooserFormDateThongKe = new com.toedter.calendar.JDateChooser();
         jDateChooserToDateThongke = new com.toedter.calendar.JDateChooser();
@@ -116,6 +116,7 @@ public class Home extends javax.swing.JFrame {
         lblTongDonThongKE = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         lblTongTienThongKe = new javax.swing.JLabel();
+        btnSearchThongKe = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Quản Lý Bán Hàng");
@@ -426,25 +427,20 @@ public class Home extends javax.swing.JFrame {
 
         tblOrderdetails.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Order ID", "Vegetable ID", "Vegetable Name", "Quantity", "Price", "Date"
+                "STT", "Order ID", "Vegetable ID", "Vegetable Name", "Quantity", "Price", "Date"
             }
         ));
         jScrollPane5.setViewportView(tblOrderdetails);
 
         jPanelOrderDetais.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 890, -1));
         jPanelOrderDetais.add(jScrollBarOrderDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 150, 20, 400));
-
-        lblSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/search_20px.png"))); // NOI18N
-        lblSearch.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanelOrderDetais.add(lblSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 60, 40, 30));
-        jPanelOrderDetais.add(txtSearchOrderdetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(703, 62, 200, 30));
+        jPanelOrderDetais.add(txtSearchOrderdetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 60, 200, 30));
 
         jDateChooserFrom.setDateFormatString("dd-MM-yyyy");
         jPanelOrderDetais.add(jDateChooserFrom, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 120, 30));
@@ -457,6 +453,14 @@ public class Home extends javax.swing.JFrame {
 
         lblFromdateOrderDetails.setText("From date :");
         jPanelOrderDetais.add(lblFromdateOrderDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, -1, 20));
+
+        btnSearchOrderDetails.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\search_20px.png")); // NOI18N
+        btnSearchOrderDetails.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchOrderDetailsActionPerformed(evt);
+            }
+        });
+        jPanelOrderDetais.add(btnSearchOrderDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 60, 60, 30));
 
         jTabbedPane.addTab("Chi tiết Hóa Đơn", new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\receipt_40px.png"), jPanelOrderDetais); // NOI18N
 
@@ -475,16 +479,19 @@ public class Home extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Order ID", "Vegetable ID", "Unit Sale", "Date Sale", "Total"
+                "STT", "Order ID", "Vegetable ID", "Unit Sale", "Date Sale", "Total"
             }
         ));
         jScrollPane6.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setResizable(false);
+        }
 
         jPanelThongKe.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, 860, -1));
         jPanelThongKe.add(jScrollBar4, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 220, 20, 390));
@@ -502,6 +509,14 @@ public class Home extends javax.swing.JFrame {
 
         lblTongTienThongKe.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanelThongKe.add(lblTongTienThongKe, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 146, 150, 30));
+
+        btnSearchThongKe.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\search_20px.png")); // NOI18N
+        btnSearchThongKe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchThongKeActionPerformed(evt);
+            }
+        });
+        jPanelThongKe.add(btnSearchThongKe, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 90, 60, 30));
 
         jTabbedPane.addTab("Thống Kê ", new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\analytics_40px.png"), jPanelThongKe); // NOI18N
 
@@ -563,6 +578,14 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
 
+    private void btnSearchOrderDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchOrderDetailsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSearchOrderDetailsActionPerformed
+
+    private void btnSearchThongKeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchThongKeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSearchThongKeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -611,6 +634,8 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btnResetNhapHang;
     private javax.swing.JButton btnSearchCustomer;
     private javax.swing.JButton btnSearchNhapHang;
+    private javax.swing.JButton btnSearchOrderDetails;
+    private javax.swing.JButton btnSearchThongKe;
     private javax.swing.JButton btnUpdateCustomers;
     private javax.swing.JButton btnUpdateNhapHang;
     private javax.swing.JButton jButton1;
@@ -662,7 +687,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel lblPasswordCustomer;
     private javax.swing.JLabel lblPriceNhapHang;
     private javax.swing.JLabel lblPriceOrder;
-    private javax.swing.JLabel lblSearch;
     private javax.swing.JLabel lblSearchOrder;
     private javax.swing.JLabel lblTodateOrderDetails;
     private javax.swing.JLabel lblTongDonThongKE;

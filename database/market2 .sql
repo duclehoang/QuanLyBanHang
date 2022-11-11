@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 09, 2022 lúc 06:19 PM
+-- Thời gian đã tạo: Th10 11, 2022 lúc 10:45 AM
 -- Phiên bản máy phục vụ: 10.4.24-MariaDB
 -- Phiên bản PHP: 8.1.6
 
@@ -76,7 +76,7 @@ CREATE TABLE `order` (
   `OrderID` int(10) UNSIGNED NOT NULL,
   `CustomerID` int(10) NOT NULL,
   `VegetableID` int(10) NOT NULL,
-  `VegetableName` text NOT NULL,
+  `VegetableName` varchar(30) NOT NULL,
   `Price` int(11) NOT NULL,
   `Unit` int(11) NOT NULL,
   `Date` date NOT NULL,
@@ -103,23 +103,39 @@ INSERT INTO `order` (`OrderID`, `CustomerID`, `VegetableID`, `VegetableName`, `P
 CREATE TABLE `orderdetail` (
   `OrderID` int(10) UNSIGNED NOT NULL,
   `VegetableID` int(10) NOT NULL,
+  `VegetableName` varchar(30) NOT NULL,
   `Quantity` tinyint(4) NOT NULL,
-  `Price` float NOT NULL
+  `Price` float NOT NULL,
+  `Date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Đang đổ dữ liệu cho bảng `orderdetail`
 --
 
-INSERT INTO `orderdetail` (`OrderID`, `VegetableID`, `Quantity`, `Price`) VALUES
-(0, 1, 1, 30000),
-(0, 8, 1, 120000),
-(1, 4, 1, 80000),
-(1, 2, 1, 35000),
-(1, 3, 1, 150000),
-(2, 5, 1, 35000),
-(2, 7, 2, 30000),
-(3, 6, 2, 80000);
+INSERT INTO `orderdetail` (`OrderID`, `VegetableID`, `VegetableName`, `Quantity`, `Price`, `Date`) VALUES
+(0, 1, '', 1, 30000, NULL),
+(0, 8, '', 1, 120000, NULL),
+(1, 4, '', 1, 80000, NULL),
+(1, 2, '', 1, 35000, NULL),
+(1, 3, '', 1, 150000, NULL),
+(2, 5, '', 1, 35000, NULL),
+(2, 7, '', 2, 30000, NULL),
+(3, 6, '', 2, 80000, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `statistics`
+--
+
+CREATE TABLE `statistics` (
+  `Id` int(11) NOT NULL,
+  `OrderID` int(10) UNSIGNED NOT NULL,
+  `VegetableID` int(10) NOT NULL,
+  `UnitSale` int(11) NOT NULL,
+  `Total` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -183,11 +199,29 @@ ALTER TABLE `orderdetail`
   ADD KEY `VegetableID` (`VegetableID`);
 
 --
+-- Chỉ mục cho bảng `statistics`
+--
+ALTER TABLE `statistics`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `OrderID` (`OrderID`),
+  ADD KEY `VegetableID` (`VegetableID`);
+
+--
 -- Chỉ mục cho bảng `vegetable`
 --
 ALTER TABLE `vegetable`
   ADD PRIMARY KEY (`VegetableID`),
   ADD KEY `CatagoryID` (`CatagoryID`);
+
+--
+-- AUTO_INCREMENT cho các bảng đã đổ
+--
+
+--
+-- AUTO_INCREMENT cho bảng `statistics`
+--
+ALTER TABLE `statistics`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -212,6 +246,13 @@ ALTER TABLE `order`
 ALTER TABLE `orderdetail`
   ADD CONSTRAINT `orderdetail_ibfk_1` FOREIGN KEY (`VegetableID`) REFERENCES `vegetable` (`VegetableID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `orderdetail_ibfk_2` FOREIGN KEY (`OrderID`) REFERENCES `order` (`OrderID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `statistics`
+--
+ALTER TABLE `statistics`
+  ADD CONSTRAINT `statistics_ibfk_1` FOREIGN KEY (`OrderID`) REFERENCES `order` (`OrderID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `statistics_ibfk_2` FOREIGN KEY (`VegetableID`) REFERENCES `vegetable` (`VegetableID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
