@@ -4,6 +4,19 @@
  */
 package GUI;
 
+import BLL.CustomersBLL;
+import DTO.Customers;
+import DTO.Vegetable;
+
+
+import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.swing.table.DefaultTableModel;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+
 /**
  *
  * @author nguye
@@ -13,10 +26,27 @@ public class Home extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
+    
     public Home() {
         initComponents();
         setResizable(false);
     }
+    
+    private void loadCustomer() {
+//        CustomersBLL customersBLL=new CustomersBLL();
+//        DefaultTableModel model = (DefaultTableModel) jTableCustomers.getModel();
+////        List <Customers> listCustomers = customersBLL.listCustomers();
+//        for (int i = 0; i < listCustomers.size(); i++) {
+//            System.out.println(listCustomers.get(i));
+//            model.addRow(new Object[] {
+//                listCustomers.get(i).getCustomerID(), 
+//                listCustomers.get(i).getFullname(),
+//                listCustomers.get(i).getAddress(), 
+//                listCustomers.get(i).getCity() });
+//        }
+//        jTableCustomers.setModel(model);
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,6 +79,20 @@ public class Home extends javax.swing.JFrame {
         jScrollBar1 = new javax.swing.JScrollBar();
         txtSearchNhapHang = new javax.swing.JTextField();
         btnSearchNhapHang = new javax.swing.JButton();
+        jPanelLoaiSanPham = new javax.swing.JPanel();
+        txtNameCategoryName = new javax.swing.JTextField();
+        lblCatgoryName = new javax.swing.JLabel();
+        lblCategoryname = new javax.swing.JLabel();
+        CategoryName = new javax.swing.JTextField();
+        btnAddCategory = new javax.swing.JButton();
+        btnUpdateCategory = new javax.swing.JButton();
+        btnDeleteCategory = new javax.swing.JButton();
+        btnResetCategory = new javax.swing.JButton();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTableNhapHang1 = new javax.swing.JTable();
+        jScrollBar5 = new javax.swing.JScrollBar();
+        txtSearchNhapHang1 = new javax.swing.JTextField();
+        btnSearchNhapHang1 = new javax.swing.JButton();
         jPanelKhachHang = new javax.swing.JPanel();
         txtFullNameCustomer = new javax.swing.JTextField();
         lblFullNameCustomer = new javax.swing.JLabel();
@@ -173,6 +217,7 @@ public class Home extends javax.swing.JFrame {
 
         jLabel5.setBackground(new java.awt.Color(204, 255, 255));
         jLabel5.setForeground(new java.awt.Color(255, 102, 153));
+        jLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\tomato.jpg")); // NOI18N
         jLabel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanelNhapHang.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(494, 81, 127, 206));
 
@@ -205,22 +250,19 @@ public class Home extends javax.swing.JFrame {
 
         jTableNhapHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {"1", "1", "1", "Tomato", "0", "150", "images/tomato.jpg", "30000"},
+                {"2", "2", "2", "celery", "0", "100", "images/celery.jpg", "35000"},
+                {"3", "3", "1", "potato", "0", "100", "images/potato.jpg", "35000"},
+                {"4", "4", "3", "Apple", "0", "50", "images/apple.jpg", "150000"},
+                {"5", "5", "1", "Water melon", "0", "150", "images/watermelon.jpg", "80000"}
             },
             new String [] {
                 "STT", "VegetableID ", "CatagoryID", "VegetableName", "Unit", "Amount", "Image", "Price"
             }
         ));
         jScrollPane1.setViewportView(jTableNhapHang);
-        if (jTableNhapHang.getColumnModel().getColumnCount() > 0) {
-            jTableNhapHang.getColumnModel().getColumn(6).setHeaderValue("Image");
-            jTableNhapHang.getColumnModel().getColumn(7).setHeaderValue("Price");
-        }
 
-        jPanelNhapHang.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 907, 330));
+        jPanelNhapHang.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, 907, 320));
 
         jScrollBar1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanelNhapHang.add(jScrollBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 400, 20, 300));
@@ -230,6 +272,66 @@ public class Home extends javax.swing.JFrame {
         jPanelNhapHang.add(btnSearchNhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 312, 50, 30));
 
         jTabbedPane.addTab("Nhập Hàng", new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\product_40px.png"), jPanelNhapHang); // NOI18N
+
+        jPanelLoaiSanPham.setBackground(new java.awt.Color(204, 204, 255));
+        jPanelLoaiSanPham.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtNameCategoryName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNameCategoryNameActionPerformed(evt);
+            }
+        });
+        jPanelLoaiSanPham.add(txtNameCategoryName, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 130, 235, 30));
+
+        lblCatgoryName.setText("Category Name");
+        jPanelLoaiSanPham.add(lblCatgoryName, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, 100, 22));
+
+        lblCategoryname.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblCategoryname.setText("Descripition");
+        jPanelLoaiSanPham.add(lblCategoryname, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 88, 22));
+
+        CategoryName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CategoryNameActionPerformed(evt);
+            }
+        });
+        jPanelLoaiSanPham.add(CategoryName, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 200, 235, 30));
+
+        btnAddCategory.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\add_50px.png")); // NOI18N
+        jPanelLoaiSanPham.add(btnAddCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(738, 81, -1, 49));
+
+        btnUpdateCategory.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\pencil_drawing_50px.png")); // NOI18N
+        jPanelLoaiSanPham.add(btnUpdateCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(738, 165, -1, 47));
+
+        btnDeleteCategory.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\remove_50px.png")); // NOI18N
+        jPanelLoaiSanPham.add(btnDeleteCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 80, 50, 50));
+
+        btnResetCategory.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\reset_50px.png")); // NOI18N
+        jPanelLoaiSanPham.add(btnResetCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(841, 171, 50, 50));
+
+        jTableNhapHang1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"1", "1", "Fruit", "The kind that can be eaten without cooking"},
+                {"2", "2", "Green Vegetables", "The kind used to make salads or soups"},
+                {"3", "3", "Spices", "The kind used to enhance the taste of food"}
+            },
+            new String [] {
+                "STT", "Category ID", "Name", "Descripition"
+            }
+        ));
+        jScrollPane7.setViewportView(jTableNhapHang1);
+
+        jPanelLoaiSanPham.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 907, 330));
+
+        jScrollBar5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanelLoaiSanPham.add(jScrollBar5, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 400, 20, 300));
+        jPanelLoaiSanPham.add(txtSearchNhapHang1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 312, 180, 30));
+
+        btnSearchNhapHang1.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\search_20px.png")); // NOI18N
+        jPanelLoaiSanPham.add(btnSearchNhapHang1, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 312, 50, 30));
+
+        jTabbedPane.addTab("Loại Sản Phẩm", new javax.swing.ImageIcon(getClass().getResource("/group_of_fruits_48px.png")), jPanelLoaiSanPham); // NOI18N
+        jPanelLoaiSanPham.getAccessibleContext().setAccessibleDescription("");
 
         jPanelKhachHang.setBackground(new java.awt.Color(204, 204, 255));
         jPanelKhachHang.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -292,10 +394,10 @@ public class Home extends javax.swing.JFrame {
 
         jTableCustomers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {"1", "1", "John Smith", null, "30 Broadway", "London"},
+                {"2", "2", "Jonny English", null, "99 River View", "Reading"},
+                {"3", "3", "Elizabeth", null, "23 Buckinghamshire", "York"},
+                {"4", "4", "Beatrix", null, "66 Royal Crescent", "Bath"}
             },
             new String [] {
                 "STT", "Customer ID", "Full Name", "Password", "Adrress", "City"
@@ -326,7 +428,7 @@ public class Home extends javax.swing.JFrame {
         jLabel2.setText("Customer ID :");
         jPanelHoaDon.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(89, 59, 77, 34));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "none", "1", "2", "3", "4" }));
         jPanelHoaDon.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(178, 59, 200, 34));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
@@ -376,10 +478,10 @@ public class Home extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {"1", "0", "1", "1", "Tomato", "30000", "1", "2022-11-24", "30000", null},
+                {"2", "1", "1", "2", "potato", "35000", "2", "2022-11-24", "70000", null},
+                {"3", "2", "2", "3", "Apple", "150000", "1", "2022-11-04", "150000", null},
+                {"4", "3", "1", "4", "Water melon", "80000", "1", "2022-11-12", "80000", null}
             },
             new String [] {
                 "STT", "OrderID", "CustomerI D", "Vegetable ID", "Vegetable Name", "Price", "Unit", "Date", "Total", "Note"
@@ -427,13 +529,15 @@ public class Home extends javax.swing.JFrame {
 
         tblOrderdetails.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {"1", "0", "1", "Tomato", "30000", "2022-11-24"},
+                {"2", "1", "2", "potato", "70000", "2022-11-24"},
+                {"3", "2", "3", "Apple", "150000", "2022-11-04"},
+                {"4", "3", "4", "Water melon", "80000", "2022-11-12"},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Order ID", "Vegetable ID", "Vegetable Name", "Quantity", "Price", "Date"
+                "STT", "Order ID", "Vegetable ID", "Vegetable Name", "Total", "Date"
             }
         ));
         jScrollPane5.setViewportView(tblOrderdetails);
@@ -524,7 +628,10 @@ public class Home extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1062, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -586,33 +693,20 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSearchThongKeActionPerformed
 
+    private void txtNameCategoryNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameCategoryNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNameCategoryNameActionPerformed
+
+    private void CategoryNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CategoryNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CategoryNameActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+
+     
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -624,18 +718,24 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField CategoryName;
+    private javax.swing.JButton btnAddCategory;
     private javax.swing.JButton btnAddCustomers;
     private javax.swing.JButton btnAddNhapHang;
     private javax.swing.JButton btnAddOrder;
+    private javax.swing.JButton btnDeleteCategory;
     private javax.swing.JButton btnDeleteCustomers;
     private javax.swing.JButton btnDeleteNhapHang;
     private javax.swing.JButton btnDeleteOrder;
+    private javax.swing.JButton btnResetCategory;
     private javax.swing.JButton btnResetCustomer;
     private javax.swing.JButton btnResetNhapHang;
     private javax.swing.JButton btnSearchCustomer;
     private javax.swing.JButton btnSearchNhapHang;
+    private javax.swing.JButton btnSearchNhapHang1;
     private javax.swing.JButton btnSearchOrderDetails;
     private javax.swing.JButton btnSearchThongKe;
+    private javax.swing.JButton btnUpdateCategory;
     private javax.swing.JButton btnUpdateCustomers;
     private javax.swing.JButton btnUpdateNhapHang;
     private javax.swing.JButton jButton1;
@@ -657,6 +757,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanelHoaDon;
     private javax.swing.JPanel jPanelKhachHang;
+    private javax.swing.JPanel jPanelLoaiSanPham;
     private javax.swing.JPanel jPanelNhapHang;
     private javax.swing.JPanel jPanelOrderDetais;
     private javax.swing.JPanel jPanelThongKe;
@@ -664,6 +765,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JScrollBar jScrollBar2;
     private javax.swing.JScrollBar jScrollBar3;
     private javax.swing.JScrollBar jScrollBar4;
+    private javax.swing.JScrollBar jScrollBar5;
     private javax.swing.JScrollBar jScrollBarOrderDetails;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -671,14 +773,18 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTableCustomers;
     private javax.swing.JTable jTableNhapHang;
+    private javax.swing.JTable jTableNhapHang1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblAddressCustomer;
     private javax.swing.JLabel lblAmountNhapHang;
+    private javax.swing.JLabel lblCategoryname;
+    private javax.swing.JLabel lblCatgoryName;
     private javax.swing.JLabel lblCiTyCustomer;
     private javax.swing.JLabel lblFromThongke;
     private javax.swing.JLabel lblFromdateOrderDetails;
@@ -702,12 +808,14 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTextField txtAmountNhapHang;
     private javax.swing.JTextField txtCityCustomer;
     private javax.swing.JTextField txtFullNameCustomer;
+    private javax.swing.JTextField txtNameCategoryName;
     private javax.swing.JTextField txtNameVegetableNhapHang;
     private javax.swing.JTextField txtPasswordCustomer;
     private javax.swing.JTextField txtPriceNhapHang;
     private javax.swing.JTextField txtPriceOrder;
     private javax.swing.JTextField txtSearchCustomers;
     private javax.swing.JTextField txtSearchNhapHang;
+    private javax.swing.JTextField txtSearchNhapHang1;
     private javax.swing.JTextField txtSearchOrder;
     private javax.swing.JTextField txtSearchOrderdetails;
     private javax.swing.JTextField txtUnitNhapHang;
