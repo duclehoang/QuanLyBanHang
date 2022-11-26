@@ -4,15 +4,25 @@
  */
 package GUI;
 
+import BLL.CategoryBLL;
+import BLL.CheckValidData;
 import BLL.CustomersBLL;
+import BLL.VegetableBLL;
+import DTO.Category;
 import DTO.Customers;
 import DTO.Vegetable;
+import java.awt.Image;
+import java.io.File;
 
 
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -22,6 +32,9 @@ import org.hibernate.query.Query;
  * @author nguye
  */
 public class Home extends javax.swing.JFrame {
+    CategoryBLL categoryBLL=new CategoryBLL();
+    VegetableBLL vegetableBLL=new VegetableBLL();
+    CheckValidData checkValidData=new CheckValidData();
 
     /**
      * Creates new form MainFrame
@@ -32,20 +45,57 @@ public class Home extends javax.swing.JFrame {
         setResizable(false);
     }
     
-    private void loadCustomer() {
+//    private void loadCustomer() {
 //        CustomersBLL customersBLL=new CustomersBLL();
 //        DefaultTableModel model = (DefaultTableModel) jTableCustomers.getModel();
-////        List <Customers> listCustomers = customersBLL.listCustomers();
+//      List <Customers> listCustomers = customersBLL.listCustomers();
 //        for (int i = 0; i < listCustomers.size(); i++) {
 //            System.out.println(listCustomers.get(i));
 //            model.addRow(new Object[] {
-//                listCustomers.get(i).getCustomerID(), 
+//                listCustomers.get(i).getCustomerID(),
 //                listCustomers.get(i).getFullname(),
-//                listCustomers.get(i).getAddress(), 
+//                listCustomers.get(i).getAddress(),
 //                listCustomers.get(i).getCity() });
 //        }
 //        jTableCustomers.setModel(model);
+//}
+
+    private void loadCategory() {
+        DefaultTableModel model = (DefaultTableModel) jTableCategory.getModel();
+        List<Category> listCategory =categoryBLL.getAllCategory();
+        for (int i = 0; i < listCategory.size(); i++) {
+            model.addRow(new Object[] {      listCategory.get(i).getCatagoryID(),
+                    listCategory.get(i).getName(),listCategory.get(i).getDescription() });
+        }
+        jTableCategory.setModel(model);
+    }
+    
+    public void loadVegetable() {
+        DefaultTableModel model = new DefaultTableModel();
+        List<Category> listCategory =categoryBLL.getAllCategory();
+        for (int i = 0; i < listCategory.size(); i++) {
+             jComboVegetableCategory.addItem(String.valueOf(listCategory.get(i).getCatagoryID()));
+        }
+        
+        
+        List<Vegetable> vegetable =vegetableBLL.getAllVegetable();
+        for (int i = 0; i < vegetable.size(); i++) {
+           
+           model.addRow(new Object[]{
+               vegetable.get(i).getVegetableID(),
+               vegetable.get(i).getCatagoryID(),
+               vegetable.get(i).getVegetableName(),
+               vegetable.get(i).getUnit(),
+               vegetable.get(i).getAmount(),
+               vegetable.get(i).getPrice()
+                   
+           });
+        }
+        jTableNhapHang.setModel(model);
+       
 }
+
+
 
 
     /**
@@ -67,9 +117,9 @@ public class Home extends javax.swing.JFrame {
         lblAmountNhapHang = new javax.swing.JLabel();
         txtPriceNhapHang = new javax.swing.JTextField();
         lblPriceNhapHang = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lblImageVegetable = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        BtnChoseImage = new javax.swing.JButton();
         btnAddNhapHang = new javax.swing.JButton();
         btnUpdateNhapHang = new javax.swing.JButton();
         btnDeleteNhapHang = new javax.swing.JButton();
@@ -79,19 +129,21 @@ public class Home extends javax.swing.JFrame {
         jScrollBar1 = new javax.swing.JScrollBar();
         txtSearchNhapHang = new javax.swing.JTextField();
         btnSearchNhapHang = new javax.swing.JButton();
+        jComboVegetableCategory = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtUrl = new javax.swing.JTextField();
         jPanelLoaiSanPham = new javax.swing.JPanel();
         txtNameCategoryName = new javax.swing.JTextField();
         lblCatgoryName = new javax.swing.JLabel();
-        lblCategoryname = new javax.swing.JLabel();
-        CategoryName = new javax.swing.JTextField();
         btnAddCategory = new javax.swing.JButton();
         btnUpdateCategory = new javax.swing.JButton();
         btnDeleteCategory = new javax.swing.JButton();
         btnResetCategory = new javax.swing.JButton();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTableNhapHang1 = new javax.swing.JTable();
+        jTableCategory = new javax.swing.JTable();
         jScrollBar5 = new javax.swing.JScrollBar();
-        txtSearchNhapHang1 = new javax.swing.JTextField();
+        txtFindCategory = new javax.swing.JTextField();
         btnSearchNhapHang1 = new javax.swing.JButton();
         jPanelKhachHang = new javax.swing.JPanel();
         txtFullNameCustomer = new javax.swing.JTextField();
@@ -177,66 +229,75 @@ public class Home extends javax.swing.JFrame {
                 txtNameVegetableNhapHangActionPerformed(evt);
             }
         });
-        jPanelNhapHang.add(txtNameVegetableNhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 235, 30));
+        jPanelNhapHang.add(txtNameVegetableNhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(175, 80, 230, 30));
 
         lblVegetable.setText("Vegetable Name :");
         jPanelNhapHang.add(lblVegetable, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, 100, 22));
 
         lblUnit.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblUnit.setText("Unit :");
-        jPanelNhapHang.add(lblUnit, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, 88, 22));
+        jPanelNhapHang.add(lblUnit, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, 88, 22));
 
         txtUnitNhapHang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtUnitNhapHangActionPerformed(evt);
             }
         });
-        jPanelNhapHang.add(txtUnitNhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 140, 235, 30));
+        jPanelNhapHang.add(txtUnitNhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, 235, 30));
 
         txtAmountNhapHang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtAmountNhapHangActionPerformed(evt);
             }
         });
-        jPanelNhapHang.add(txtAmountNhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, 235, 30));
+        jPanelNhapHang.add(txtAmountNhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 240, 235, 30));
 
         lblAmountNhapHang.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblAmountNhapHang.setText("Amount :");
-        jPanelNhapHang.add(lblAmountNhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, 88, 22));
+        jPanelNhapHang.add(lblAmountNhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 240, 88, 22));
 
         txtPriceNhapHang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPriceNhapHangActionPerformed(evt);
             }
         });
-        jPanelNhapHang.add(txtPriceNhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 260, 235, 30));
+        jPanelNhapHang.add(txtPriceNhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 290, 235, 30));
 
         lblPriceNhapHang.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblPriceNhapHang.setText("Price: ");
-        jPanelNhapHang.add(lblPriceNhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 260, 88, 22));
+        jPanelNhapHang.add(lblPriceNhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, 88, 22));
 
-        jLabel5.setBackground(new java.awt.Color(204, 255, 255));
-        jLabel5.setForeground(new java.awt.Color(255, 102, 153));
-        jLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\tomato.jpg")); // NOI18N
-        jLabel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanelNhapHang.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(494, 81, 127, 206));
+        lblImageVegetable.setBackground(new java.awt.Color(204, 255, 255));
+        lblImageVegetable.setForeground(new java.awt.Color(255, 102, 153));
+        lblImageVegetable.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanelNhapHang.add(lblImageVegetable, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 76, 127, 170));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Images ");
-        jPanelNhapHang.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(518, 293, 82, -1));
+        jPanelNhapHang.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 250, 82, -1));
 
-        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\add_image_20px.png")); // NOI18N
-        jButton1.setText("Browse Iamges");
-        jButton1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        BtnChoseImage.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\add_image_20px.png")); // NOI18N
+        BtnChoseImage.setText("Browse Iamges");
+        BtnChoseImage.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        BtnChoseImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnChoseImageMouseClicked(evt);
             }
         });
-        jPanelNhapHang.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(494, 322, -1, -1));
+        BtnChoseImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnChoseImageActionPerformed(evt);
+            }
+        });
+        jPanelNhapHang.add(BtnChoseImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 310, -1, -1));
 
         btnAddNhapHang.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\add_50px.png")); // NOI18N
+        btnAddNhapHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAddNhapHangMouseClicked(evt);
+            }
+        });
         jPanelNhapHang.add(btnAddNhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(738, 81, -1, 49));
 
         btnUpdateNhapHang.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\pencil_drawing_50px.png")); // NOI18N
@@ -246,18 +307,23 @@ public class Home extends javax.swing.JFrame {
         jPanelNhapHang.add(btnDeleteNhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 80, 50, 50));
 
         btnResetNhapHang.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\reset_50px.png")); // NOI18N
+        btnResetNhapHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnResetNhapHangMouseClicked(evt);
+            }
+        });
         jPanelNhapHang.add(btnResetNhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(841, 171, 50, 50));
 
         jTableNhapHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "1", "1", "Tomato", "0", "150", "images/tomato.jpg", "30000"},
-                {"2", "2", "2", "celery", "0", "100", "images/celery.jpg", "35000"},
-                {"3", "3", "1", "potato", "0", "100", "images/potato.jpg", "35000"},
-                {"4", "4", "3", "Apple", "0", "50", "images/apple.jpg", "150000"},
-                {"5", "5", "1", "Water melon", "0", "150", "images/watermelon.jpg", "80000"}
+                {"1", "1", "Tomato", "kg", "150", "30000"},
+                {"2", "2", "celery", "kg", "100", "35000"},
+                {"3", "1", "potato", "kg", "100", "35000"},
+                {"4", "3", "Apple", "kg", "50", "150000"},
+                {"5", "1", "Water melon", "kg", "150", "80000"}
             },
             new String [] {
-                "STT", "VegetableID ", "CatagoryID", "VegetableName", "Unit", "Amount", "Image", "Price"
+                "VegetableID ", "CatagoryID", "VegetableName", "Unit", "Amount", "Price"
             }
         ));
         jScrollPane1.setViewportView(jTableNhapHang);
@@ -271,6 +337,23 @@ public class Home extends javax.swing.JFrame {
         btnSearchNhapHang.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\search_20px.png")); // NOI18N
         jPanelNhapHang.add(btnSearchNhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 312, 50, 30));
 
+        jComboVegetableCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chose value", "1", "2", "3" }));
+        jPanelNhapHang.add(jComboVegetableCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 140, 220, 30));
+
+        jLabel8.setText("CategoryID :");
+        jLabel8.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jPanelNhapHang.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 80, -1));
+
+        jLabel5.setText("Url :");
+        jPanelNhapHang.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 280, -1, -1));
+
+        txtUrl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUrlActionPerformed(evt);
+            }
+        });
+        jPanelNhapHang.add(txtUrl, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 280, 140, -1));
+
         jTabbedPane.addTab("Nhập Hàng", new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\product_40px.png"), jPanelNhapHang); // NOI18N
 
         jPanelLoaiSanPham.setBackground(new java.awt.Color(204, 204, 255));
@@ -281,53 +364,67 @@ public class Home extends javax.swing.JFrame {
                 txtNameCategoryNameActionPerformed(evt);
             }
         });
-        jPanelLoaiSanPham.add(txtNameCategoryName, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 130, 235, 30));
+        jPanelLoaiSanPham.add(txtNameCategoryName, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 140, 235, 30));
 
         lblCatgoryName.setText("Category Name");
-        jPanelLoaiSanPham.add(lblCatgoryName, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, 100, 22));
-
-        lblCategoryname.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        lblCategoryname.setText("Descripition");
-        jPanelLoaiSanPham.add(lblCategoryname, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 88, 22));
-
-        CategoryName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CategoryNameActionPerformed(evt);
-            }
-        });
-        jPanelLoaiSanPham.add(CategoryName, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 200, 235, 30));
+        jPanelLoaiSanPham.add(lblCatgoryName, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 100, 22));
 
         btnAddCategory.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\add_50px.png")); // NOI18N
+        btnAddCategory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAddCategoryMouseClicked(evt);
+            }
+        });
         jPanelLoaiSanPham.add(btnAddCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(738, 81, -1, 49));
 
         btnUpdateCategory.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\pencil_drawing_50px.png")); // NOI18N
+        btnUpdateCategory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUpdateCategoryMouseClicked(evt);
+            }
+        });
         jPanelLoaiSanPham.add(btnUpdateCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(738, 165, -1, 47));
 
         btnDeleteCategory.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\remove_50px.png")); // NOI18N
+        btnDeleteCategory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDeleteCategoryMouseClicked(evt);
+            }
+        });
         jPanelLoaiSanPham.add(btnDeleteCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 80, 50, 50));
 
         btnResetCategory.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\reset_50px.png")); // NOI18N
+        btnResetCategory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnResetCategoryMouseClicked(evt);
+            }
+        });
         jPanelLoaiSanPham.add(btnResetCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(841, 171, 50, 50));
 
-        jTableNhapHang1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableCategory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "1", "Fruit", "The kind that can be eaten without cooking"},
-                {"2", "2", "Green Vegetables", "The kind used to make salads or soups"},
-                {"3", "3", "Spices", "The kind used to enhance the taste of food"}
+                {"1", "Fruit"},
+                {"2", "Green Vegetables"},
+                {"3", "Spices"}
             },
             new String [] {
-                "STT", "Category ID", "Name", "Descripition"
+                "Category ID", "Name"
             }
         ));
-        jScrollPane7.setViewportView(jTableNhapHang1);
+        jScrollPane7.setViewportView(jTableCategory);
 
         jPanelLoaiSanPham.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 907, 330));
 
         jScrollBar5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanelLoaiSanPham.add(jScrollBar5, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 400, 20, 300));
-        jPanelLoaiSanPham.add(txtSearchNhapHang1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 312, 180, 30));
+        jPanelLoaiSanPham.add(txtFindCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 312, 180, 30));
 
         btnSearchNhapHang1.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\search_20px.png")); // NOI18N
+        btnSearchNhapHang1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSearchNhapHang1MouseClicked(evt);
+            }
+        });
         jPanelLoaiSanPham.add(btnSearchNhapHang1, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 312, 50, 30));
 
         jTabbedPane.addTab("Loại Sản Phẩm", new javax.swing.ImageIcon(getClass().getResource("/group_of_fruits_48px.png")), jPanelLoaiSanPham); // NOI18N
@@ -657,9 +754,9 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPriceNhapHangActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void BtnChoseImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnChoseImageActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_BtnChoseImageActionPerformed
 
     private void btnSearchCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchCustomerActionPerformed
         // TODO add your handling code here:
@@ -697,9 +794,144 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNameCategoryNameActionPerformed
 
-    private void CategoryNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CategoryNameActionPerformed
+    private void btnAddCategoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddCategoryMouseClicked
+             if(txtNameCategoryName.getText().equals(" ")) {  
+                 JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin");
+        }else {
+            categoryBLL.addCategory(txtNameCategoryName.getText());
+            JOptionPane.showMessageDialog(this, "Thêm thành công");
+          
+        } 
+
+    }//GEN-LAST:event_btnAddCategoryMouseClicked
+
+    private void btnResetCategoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetCategoryMouseClicked
+                       
+        txtNameCategoryName.setText(" ");
+        loadCategory();
+    }//GEN-LAST:event_btnResetCategoryMouseClicked
+
+    private void btnUpdateCategoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateCategoryMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_CategoryNameActionPerformed
+     
+        if(txtNameCategoryName.getText().equals("")) {  
+            JOptionPane.showMessageDialog(this, "Không bỏ trống dòng này");
+        }else {
+          
+           
+            categoryBLL.updateCategory(txtNameCategoryName.getText());
+            JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+        
+       
+}
+
+    }//GEN-LAST:event_btnUpdateCategoryMouseClicked
+
+    private void btnDeleteCategoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteCategoryMouseClicked
+        // TODO add your handling code here:
+       
+        int i = jTableCategory.getSelectedRow();
+        if (i <= -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần xoá");
+        } else {
+            int yes = JOptionPane.showConfirmDialog(this, "Bạn Có Chắc Chắn Xoá Không",
+                    "Thông Báo Xác Nhận Xoá", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (yes == JOptionPane.YES_OPTION) {
+                String Categoryid = jTableCategory.getModel().getValueAt(i, 0) + "";
+                int idLoaiSP = Integer.parseInt(Categoryid);
+                categoryBLL.delCategory(idLoaiSP);
+                JOptionPane.showMessageDialog(rootPane, "Xoá thành công");
+                loadCategory();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, " Đã Huỷ ");
+            
+        }
+ }
+
+    }//GEN-LAST:event_btnDeleteCategoryMouseClicked
+
+    private void btnSearchNhapHang1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchNhapHang1MouseClicked
+        // TODO add your handling code here:
+      
+
+        if (txtFindCategory.getText().equals(" ")) {
+            JOptionPane.showMessageDialog(rootPane, "Không  được bỏ trống ");
+        } else {
+            DefaultTableModel model = new DefaultTableModel();
+            Object[] columns = { "Category ID", "Name" };
+            model.setColumnIdentifiers(columns);
+
+            String idCategory = txtFindCategory.getText();
+            int id = Integer.parseInt(idCategory);
+
+            Category category = categoryBLL.FindCategoryById(id);
+            model.addRow(new Object[] { category.getCatagoryID() ,category.getName() });
+
+           jTableCategory.setModel(model);
+        }
+ 
+
+    }//GEN-LAST:event_btnSearchNhapHang1MouseClicked
+
+    private void btnResetNhapHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetNhapHangMouseClicked
+        // TODO add your handling code here:
+   
+        txtNameVegetableNhapHang.setText(" ");
+        txtUnitNhapHang.setText(" ");
+        txtAmountNhapHang.setText(" ");
+        txtPriceNhapHang.setText(" ");
+        lblImageVegetable.setIcon(null);
+        loadVegetable();
+    
+
+    }//GEN-LAST:event_btnResetNhapHangMouseClicked
+
+    private void BtnChoseImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnChoseImageMouseClicked
+        // TODO add your handling code here:
+        JFileChooser filechooser = new JFileChooser();
+        FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("Hinh ảnh", "png", "jpg");
+        filechooser.setFileFilter(imgFilter);
+        filechooser.setMultiSelectionEnabled(false);
+
+        int x = filechooser.showDialog(this, "Open");
+        if(x == JFileChooser.APPROVE_OPTION) {
+            File file = filechooser.getSelectedFile();
+            String pathImg = file.toString();
+            
+            ImageIcon imageIcon = new ImageIcon(pathImg);
+            Image hinhAnh = imageIcon.getImage().getScaledInstance(lblImageVegetable.getWidth(), lblImageVegetable.getHeight(),
+                    Image.SCALE_SMOOTH);
+           lblImageVegetable.setIcon(new ImageIcon(hinhAnh));
+           txtUrl.setText(pathImg);
+
+        }
+        
+    }//GEN-LAST:event_BtnChoseImageMouseClicked
+
+    private void txtUrlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUrlActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_txtUrlActionPerformed
+
+    private void btnAddNhapHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddNhapHangMouseClicked
+        // TODO add your handling code here:
+      if (txtNameVegetableNhapHang.getText().equals("") || txtUnitNhapHang.getText().equals("")
+                || txtPriceNhapHang.getText().equals("") || jComboVegetableCategory.equals("Chose value")
+                ||txtUrl.getText().equals("")) 
+{
+  JOptionPane.showMessageDialog(rootPane, "please enter information");
+        }else{
+          String name =txtNameVegetableNhapHang.getText();
+          String unit=txtUnitNhapHang.getText();
+          String Price=txtAddressCustomers.getText();
+          String amount=txtAmountNhapHang.getText();
+          String url=txtUrl.getText();
+          int CategoryID=Integer.parseInt(jComboVegetableCategory.getSelectedItem().toString());
+          Vegetable vegetable=vegetableBLL.addVegetable(CategoryID, name, url, unit,Integer.parseInt(amount), Integer.parseInt(Price));
+          JOptionPane.showMessageDialog(this, "Thêm thành công");
+      }
+        
+    }//GEN-LAST:event_btnAddNhapHangMouseClicked
 
     /**
      * @param args the command line arguments
@@ -718,7 +950,7 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField CategoryName;
+    private javax.swing.JButton BtnChoseImage;
     private javax.swing.JButton btnAddCategory;
     private javax.swing.JButton btnAddCustomers;
     private javax.swing.JButton btnAddNhapHang;
@@ -738,10 +970,10 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btnUpdateCategory;
     private javax.swing.JButton btnUpdateCustomers;
     private javax.swing.JButton btnUpdateNhapHang;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboVegetableCategory;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooserFormDateThongKe;
     private com.toedter.calendar.JDateChooser jDateChooserFrom;
@@ -754,6 +986,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanelHoaDon;
     private javax.swing.JPanel jPanelKhachHang;
@@ -777,18 +1010,18 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTableCategory;
     private javax.swing.JTable jTableCustomers;
     private javax.swing.JTable jTableNhapHang;
-    private javax.swing.JTable jTableNhapHang1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblAddressCustomer;
     private javax.swing.JLabel lblAmountNhapHang;
-    private javax.swing.JLabel lblCategoryname;
     private javax.swing.JLabel lblCatgoryName;
     private javax.swing.JLabel lblCiTyCustomer;
     private javax.swing.JLabel lblFromThongke;
     private javax.swing.JLabel lblFromdateOrderDetails;
     private javax.swing.JLabel lblFullNameCustomer;
+    private javax.swing.JLabel lblImageVegetable;
     private javax.swing.JLabel lblNoteOrder;
     private javax.swing.JLabel lblPasswordCustomer;
     private javax.swing.JLabel lblPriceNhapHang;
@@ -807,6 +1040,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTextField txtAddressCustomers;
     private javax.swing.JTextField txtAmountNhapHang;
     private javax.swing.JTextField txtCityCustomer;
+    private javax.swing.JTextField txtFindCategory;
     private javax.swing.JTextField txtFullNameCustomer;
     private javax.swing.JTextField txtNameCategoryName;
     private javax.swing.JTextField txtNameVegetableNhapHang;
@@ -815,11 +1049,11 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTextField txtPriceOrder;
     private javax.swing.JTextField txtSearchCustomers;
     private javax.swing.JTextField txtSearchNhapHang;
-    private javax.swing.JTextField txtSearchNhapHang1;
     private javax.swing.JTextField txtSearchOrder;
     private javax.swing.JTextField txtSearchOrderdetails;
     private javax.swing.JTextField txtUnitNhapHang;
     private javax.swing.JTextField txtUnitOrder;
+    private javax.swing.JTextField txtUrl;
     private javax.swing.JTextField txtVegetableIDOrder;
     private javax.swing.JTextField txtVegetableNameOrder;
     // End of variables declaration//GEN-END:variables
