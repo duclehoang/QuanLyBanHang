@@ -40,25 +40,25 @@ public class Vegetable implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "VegetableID")
+    @Column(name = "VegetableID", nullable = false)
     private Integer vegetableID;
     @Basic(optional = false)
-    @Column(name = "CatagoryID")
+    @Column(name = "CatagoryID", nullable = false)
     private int catagoryID;
     @Basic(optional = false)
-    @Column(name = "VegetableName")
+    @Column(name = "VegetableName", nullable = false, length = 30)
     private String vegetableName;
     @Basic(optional = false)
-    @Column(name = "Unit")
+    @Column(name = "Unit", nullable = false, length = 20)
     private String unit;
     @Basic(optional = false)
-    @Column(name = "Amount")
+    @Column(name = "Amount", nullable = false)
     private int amount;
     @Basic(optional = false)
-    @Column(name = "Image")
+    @Column(name = "Image", nullable = false, length = 50)
     private String image;
     @Basic(optional = false)
-    @Column(name = "Price")
+    @Column(name = "Price", nullable = false)
     private float price;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "vegetable")
     private Category category;

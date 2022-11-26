@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Orderdetail.findAll", query = "SELECT o FROM Orderdetail o"),
     @NamedQuery(name = "Orderdetail.findById", query = "SELECT o FROM Orderdetail o WHERE o.id = :id"),
+    @NamedQuery(name = "Orderdetail.findByVegetableName", query = "SELECT o FROM Orderdetail o WHERE o.vegetableName = :vegetableName"),
     @NamedQuery(name = "Orderdetail.findByQuantity", query = "SELECT o FROM Orderdetail o WHERE o.quantity = :quantity"),
     @NamedQuery(name = "Orderdetail.findByPrice", query = "SELECT o FROM Orderdetail o WHERE o.price = :price")})
 public class Orderdetail implements Serializable {
@@ -36,18 +37,21 @@ public class Orderdetail implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "Quantity")
+    @Column(name = "VegetableName", nullable = false, length = 50)
+    private String vegetableName;
+    @Basic(optional = false)
+    @Column(name = "Quantity", nullable = false)
     private short quantity;
     @Basic(optional = false)
-    @Column(name = "Price")
+    @Column(name = "Price", nullable = false)
     private float price;
-    @JoinColumn(name = "VegetableID", referencedColumnName = "VegetableID")
+    @JoinColumn(name = "VegetableID", referencedColumnName = "VegetableID", nullable = false)
     @ManyToOne(optional = false)
     private Vegetable vegetableID;
-    @JoinColumn(name = "OrderID", referencedColumnName = "OrderID")
+    @JoinColumn(name = "OrderID", referencedColumnName = "OrderID", nullable = false)
     @ManyToOne(optional = false)
     private Order1 orderID;
 
@@ -58,8 +62,9 @@ public class Orderdetail implements Serializable {
         this.id = id;
     }
 
-    public Orderdetail(Integer id, short quantity, float price) {
+    public Orderdetail(Integer id, String vegetableName, short quantity, float price) {
         this.id = id;
+        this.vegetableName = vegetableName;
         this.quantity = quantity;
         this.price = price;
     }
@@ -70,6 +75,14 @@ public class Orderdetail implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getVegetableName() {
+        return vegetableName;
+    }
+
+    public void setVegetableName(String vegetableName) {
+        this.vegetableName = vegetableName;
     }
 
     public short getQuantity() {

@@ -43,6 +43,25 @@ public class CheckValidData {
         return result = m.find();
        
     }
+  
+   public boolean checkPhoneNumber(String phone) {
+    
+    boolean isNumeric = phone.matches("^[0-9]+$");
+    char st1 = phone.charAt(0);
+
+    if (isNumeric == false) {
+        return false;
+      
+    } else if (phone.length() != 10) {
+        
+        return false;
+    } else if (st1 != '0') {
+        return false;
+    }
+    return true;
+}
+
+   
     
    
 }

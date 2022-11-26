@@ -33,14 +33,14 @@ public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "CatagoryID")
+    @Column(name = "CatagoryID", nullable = false)
     private Integer catagoryID;
     @Basic(optional = false)
-    @Column(name = "Name")
+    @Column(name = "Name", nullable = false, length = 30)
     private String name;
-    @Column(name = "Description")
+    @Column(name = "Description", length = 50)
     private String description;
-    @JoinColumn(name = "CatagoryID", referencedColumnName = "CatagoryID", insertable = false, updatable = false)
+    @JoinColumn(name = "CatagoryID", referencedColumnName = "CatagoryID", nullable = false, insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Vegetable vegetable;
 

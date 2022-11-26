@@ -32,6 +32,24 @@ public class VegetableBLL {
        
         return vdal.addVegetable(vegetable);
     }
+    public void updateVegetable(int vegetableId,String VegetableName, String unit , int amount, float price,String url) {
+        vegetable.setVegetableName(VegetableName);
+        vegetable.setUnit(unit);
+        vegetable.setAmount(amount);
+        vegetable.setPrice(price);
+        vegetable.setImage(url);
+
+
+
+}
+    
+    public void deletevegetable(int id) {
+        vdal.deleteVegetable(id);
+}
+    
+    public Vegetable findVegetable(int id) {
+        return vdal.findVegetable(id);
+    }
 
 
 }

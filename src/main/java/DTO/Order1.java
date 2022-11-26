@@ -41,20 +41,20 @@ public class Order1 implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "OrderID")
+    @Column(name = "OrderID", nullable = false)
     private Integer orderID;
     @Basic(optional = false)
-    @Column(name = "Date")
+    @Column(name = "Date", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date date;
     @Basic(optional = false)
-    @Column(name = "Total")
+    @Column(name = "Total", nullable = false)
     private float total;
     @Basic(optional = false)
     @Lob
-    @Column(name = "Note")
+    @Column(name = "Note", nullable = false, length = 65535)
     private String note;
-    @JoinColumn(name = "CustomerID", referencedColumnName = "CustomerID")
+    @JoinColumn(name = "CustomerID", referencedColumnName = "CustomerID", nullable = false)
     @ManyToOne(optional = false)
     private Customers customerID;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderID")

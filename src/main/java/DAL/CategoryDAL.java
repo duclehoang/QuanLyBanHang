@@ -19,12 +19,12 @@ public class CategoryDAL {
         List<Category> category = null;
         try {
         
-            session.beginTransaction();
+            transaction=session.beginTransaction();
             category = session.createQuery("from Category").list();
             session.getTransaction().commit();
         } catch (Exception e) {
             if (transaction != null) {
-                transaction.rollback();
+              transaction.rollback();
             }
         }finally {
             session.clear();
@@ -36,12 +36,12 @@ public class CategoryDAL {
        public void addCategory(Category category ) {
         try {
             
-            session.beginTransaction();
+           transaction= session.beginTransaction();
             session.save(category);
           session.getTransaction().commit();
         } catch (Exception e) {
             if (transaction != null) {
-                transaction.rollback();
+               transaction.rollback();
             }
         }finally {
             session.clear();
@@ -53,12 +53,12 @@ public class CategoryDAL {
         public void updateCategory(Category category) {
         try {
             
-          session.beginTransaction();
+         transaction= session.beginTransaction();
             session.update(category);
             session.getTransaction().commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
+           if (transaction != null) {
+              transaction.rollback();
             }
         }finally {
             session.clear();
@@ -71,12 +71,12 @@ public class CategoryDAL {
         try {
           
             Category category = session.get(Category.class, id);
-                session.beginTransaction();
+               transaction= session.beginTransaction();
                 session.delete(category);
                 session.getTransaction().commit();
         } catch (Exception e) {
             if (transaction != null) {
-                transaction.rollback();
+              transaction.rollback();
             }
         }finally {
             session.clear();
@@ -92,12 +92,12 @@ public class CategoryDAL {
        
         try {
             session = HibernateUtils.getFactory().openSession();
-             session.beginTransaction();
+             transaction=session.beginTransaction();
             category = session.get(Category.class, id);
             session.getTransaction().commit();
         } catch (Exception e) {
             if (transaction != null) {
-                transaction.rollback();
+              transaction.rollback();
             }
         }finally {
             session.clear();
