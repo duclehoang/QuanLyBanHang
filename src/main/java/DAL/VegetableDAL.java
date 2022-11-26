@@ -34,12 +34,10 @@ public class VegetableDAL {
     }
     
     public Vegetable addVegetable(Vegetable vegetable) {
-        Vegetable vegetable1 = null;
         try {
             session = HibernateUtils.getFactory().openSession();
           transaction= session.beginTransaction();
             session.save(vegetable);
-            vegetable1 = vegetable;
             session.getTransaction().commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -49,7 +47,7 @@ public class VegetableDAL {
             session.clear();
             session.close();
         }
-        return vegetable1;
+        return vegetable;
  }
     
     public void updateVegetable(int id ,String vegetableName, int amount,float price,String url) {

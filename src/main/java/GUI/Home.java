@@ -8,14 +8,18 @@ import BLL.CategoryBLL;
 import BLL.CheckValidData;
 import BLL.CustomersBLL;
 import BLL.OrderBLL;
+import BLL.StatisticsBLL;
 import BLL.VegetableBLL;
 import DTO.Category;
 import DTO.Customers;
+import DTO.Statistics;
 import DTO.Order1;
+import DTO.Orderdetail;
 import DTO.Vegetable;
 import java.awt.Image;
 import java.io.File;
 import java.text.ParseException;
+import java.util.Date;
 
 
 import java.util.List;
@@ -29,6 +33,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import BLL.OrderDetailsBLL;
 
 /**
  *
@@ -40,6 +45,11 @@ public class Home extends javax.swing.JFrame {
     CustomersBLL customersBLL=new CustomersBLL();
     Customers customers=new Customers();
     OrderBLL orderBLL=new OrderBLL();
+    Order1 order1=new Order1();
+    Orderdetail orderdetail=new Orderdetail();
+    OrderDetailsBLL orderDetailsBLL=new OrderDetailsBLL();
+    StatisticsBLL sbll=new StatisticsBLL();
+    Statistics s=new Statistics();
     CheckValidData checkValidData=new CheckValidData();
 
     /**
@@ -49,8 +59,9 @@ public class Home extends javax.swing.JFrame {
     public Home() {
         initComponents();
         setResizable(false);
-//        loadCategory();
+       loadCategory();
 //        loadVegetable();
+loadStatictis();
     }
     
 //    private void loadCustomer() {
@@ -124,6 +135,10 @@ public class Home extends javax.swing.JFrame {
         public  void loadOrder(){
             DefaultTableModel model = new DefaultTableModel();
       List<Order1> listOrder1s =orderBLL.getAllOrder();
+       List<Customers> customers =customersBLL.getListCustomers();
+       for (int i = 0; i < listOrder1s.size(); i++) {
+           jcomboorder.addItem(String.valueOf(customers.get(i).getCustomerID()));
+       }
         for (int i = 0; i < listOrder1s.size(); i++) {
            
            model.addRow(new Object[]{
@@ -140,19 +155,51 @@ public class Home extends javax.swing.JFrame {
         
            public  void loadOrderDetails(){
             DefaultTableModel model = new DefaultTableModel();
-      List<Order1> listOrder1s =orderBLL.getAllOrder();
-        for (int i = 0; i < listOrder1s.size(); i++) {
+      List<Orderdetail> lisOderDt =orderDetailsBLL.getAllOrderDt();
+        for (int i = 0; i < lisOderDt.size(); i++) {
            
            model.addRow(new Object[]{
-               listOrder1s.get(i).getOrderID(),
-               listOrder1s.get(i).getCustomerID(),
-               listOrder1s.get(i).getDate(),
-               listOrder1s.get(i).getTotal()
+               lisOderDt.get(i).getId(),
+               lisOderDt.get(i).getOrderID(),
+               lisOderDt.get(i).getVegetableID(),
+               lisOderDt.get(i).getVegetableName(),
+               lisOderDt.get(i).getQuantity(),
+         
+               lisOderDt.get(i).getPrice(),
+             
               
                    
            });
         }
-        tblOrder.setModel(model);
+        jorderDetails.setModel(model);
+    }
+           
+               public  void loadStatictis(){
+            DefaultTableModel model = new DefaultTableModel();
+      List<Statistics> list =sbll.getListStatisticses();
+       
+            
+             
+              
+                   
+           
+       
+            
+            
+            
+        for (int i = 0; i < list.size(); i++) {
+           
+           model.addRow(new Object[]{
+               list.get(i).getId(),
+               list.get(i).getTotalOrder(),
+               list.get(i).getTotalMoney(),
+           
+             
+              
+                   
+           });
+        }
+        jorderDetails.setModel(model);
     }
 
 
@@ -226,46 +273,36 @@ public class Home extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jPanelHoaDon = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jcomboorder = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtTotalOrder = new javax.swing.JTextField();
         lblNoteOrder = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         texAreaNoteOrder = new javax.swing.JTextArea();
         jScrollBar3 = new javax.swing.JScrollBar();
         btnAddOrder = new javax.swing.JButton();
         btnDeleteOrder = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnUpdateOrder = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         lblSearchOrder = new javax.swing.JLabel();
         txtSearchOrder = new javax.swing.JTextField();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDateChooserOrder = new com.toedter.calendar.JDateChooser();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblOrder = new javax.swing.JTable();
         jPanelOrderDetais = new javax.swing.JPanel();
         jScrollBarOrderDetails = new javax.swing.JScrollBar();
         txtSearchOrderdetails = new javax.swing.JTextField();
-        jDateChooserFrom = new com.toedter.calendar.JDateChooser();
-        jDateChooserTodate = new com.toedter.calendar.JDateChooser();
-        lblTodateOrderDetails = new javax.swing.JLabel();
-        lblFromdateOrderDetails = new javax.swing.JLabel();
         btnSearchOrderDetails = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jorderDetails = new javax.swing.JTable();
         jPanelThongKe = new javax.swing.JPanel();
-        jDateChooserFormDateThongKe = new com.toedter.calendar.JDateChooser();
-        jDateChooserToDateThongke = new com.toedter.calendar.JDateChooser();
-        lblFromThongke = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblStatictis = new javax.swing.JTable();
         jScrollBar4 = new javax.swing.JScrollBar();
-        jLabel7 = new javax.swing.JLabel();
-        lblTongDonThongKE = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        lblTongTienThongKe = new javax.swing.JLabel();
         btnSearchThongKe = new javax.swing.JButton();
+        btnUpdateStatictis = new javax.swing.JButton();
+        txtStaticThangsearch = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Quản Lý Bán Hàng");
@@ -634,8 +671,8 @@ public class Home extends javax.swing.JFrame {
         jLabel2.setText("Customer ID :");
         jPanelHoaDon.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(89, 59, 77, 34));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "none", "1", "2", "3", "4" }));
-        jPanelHoaDon.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(178, 59, 200, 34));
+        jcomboorder.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "choose value", "1", "2", "3", "4" }));
+        jPanelHoaDon.add(jcomboorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(178, 59, 200, 34));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel3.setText("Date :");
@@ -645,12 +682,12 @@ public class Home extends javax.swing.JFrame {
         jLabel4.setText("Total :");
         jPanelHoaDon.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(129, 191, 37, -1));
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txtTotalOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txtTotalOrderActionPerformed(evt);
             }
         });
-        jPanelHoaDon.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(178, 183, 241, 32));
+        jPanelHoaDon.add(txtTotalOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(178, 183, 241, 32));
 
         lblNoteOrder.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblNoteOrder.setText("Note :");
@@ -666,17 +703,32 @@ public class Home extends javax.swing.JFrame {
         btnAddOrder.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\add_50px.png")); // NOI18N
         btnAddOrder.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnAddOrder.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAddOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAddOrderMouseClicked(evt);
+            }
+        });
         jPanelHoaDon.add(btnAddOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 40, 60, 50));
 
         btnDeleteOrder.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\remove_50px.png")); // NOI18N
         btnDeleteOrder.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnDeleteOrder.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDeleteOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDeleteOrderMouseClicked(evt);
+            }
+        });
         jPanelHoaDon.add(btnDeleteOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 40, -1, 50));
 
-        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\pencil_drawing_50px.png")); // NOI18N
-        jButton2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanelHoaDon.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 110, 60, 50));
+        btnUpdateOrder.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\pencil_drawing_50px.png")); // NOI18N
+        btnUpdateOrder.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnUpdateOrder.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnUpdateOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUpdateOrderMouseClicked(evt);
+            }
+        });
+        jPanelHoaDon.add(btnUpdateOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 110, 60, 50));
 
         jButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\reset_50px.png")); // NOI18N
         jButton3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -687,11 +739,16 @@ public class Home extends javax.swing.JFrame {
         lblSearchOrder.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSearchOrder.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\search_20px.png")); // NOI18N
         lblSearchOrder.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lblSearchOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSearchOrderMouseClicked(evt);
+            }
+        });
         jPanelHoaDon.add(lblSearchOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 320, 30, 30));
         jPanelHoaDon.add(txtSearchOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 320, 190, 30));
 
-        jDateChooser1.setDateFormatString("dd-MM-yyyy");
-        jPanelHoaDon.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, 200, 30));
+        jDateChooserOrder.setDateFormatString("dd-MM-yyyy");
+        jPanelHoaDon.add(jDateChooserOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, 200, 30));
 
         tblOrder.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -712,7 +769,7 @@ public class Home extends javax.swing.JFrame {
             tblOrder.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        jPanelHoaDon.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 370, 890, 370));
+        jPanelHoaDon.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 370, 890, 370));
 
         jTabbedPane.addTab("Hóa Đơn", new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\purchase_order_40px.png"), jPanelHoaDon); // NOI18N
 
@@ -721,19 +778,12 @@ public class Home extends javax.swing.JFrame {
         jPanelOrderDetais.add(jScrollBarOrderDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 200, 20, 330));
         jPanelOrderDetais.add(txtSearchOrderdetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 60, 200, 30));
 
-        jDateChooserFrom.setDateFormatString("dd-MM-yyyy");
-        jPanelOrderDetais.add(jDateChooserFrom, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 120, 30));
-
-        jDateChooserTodate.setDateFormatString("dd-MM-yyyy");
-        jPanelOrderDetais.add(jDateChooserTodate, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 60, 130, 30));
-
-        lblTodateOrderDetails.setText("To date :");
-        jPanelOrderDetais.add(lblTodateOrderDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, -1, 20));
-
-        lblFromdateOrderDetails.setText("From date :");
-        jPanelOrderDetais.add(lblFromdateOrderDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, -1, 20));
-
         btnSearchOrderDetails.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\search_20px.png")); // NOI18N
+        btnSearchOrderDetails.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSearchOrderDetailsMouseClicked(evt);
+            }
+        });
         btnSearchOrderDetails.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSearchOrderDetailsActionPerformed(evt);
@@ -743,13 +793,13 @@ public class Home extends javax.swing.JFrame {
 
         jorderDetails.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"0", "1", "1", "Tomato", "1", "30000", "2022-11-24", "30000"},
-                {"1", "1", "2", "potato", "2", "35000", "2022-11-24", "70000"},
-                {"2", "2", "3", "Apple", "1", "150000", "2022-11-04", "150000"},
-                {"3", "1", "4", "Water melon", "1", "80000", "2022-11-12", "80000"}
+                {"0", "0", "1", "Tomato", "1", "30000"},
+                {"1", "1", "2", "potato", "2", "35000"},
+                {"2", "2", "3", "Apple", "1", "150000"},
+                {"3", "3", "4", "Water melon", "1", "80000"}
             },
             new String [] {
-                "OrderID", "CustomerI D", "Vegetable ID", "Vegetable Name", "Quantity", "Price", "Date", "Total"
+                "ID", "OrderID", "Vegetable ID", "Vegetable Name", "Quantity", "Price"
             }
         ));
         jScrollPane4.setViewportView(jorderDetails);
@@ -760,57 +810,50 @@ public class Home extends javax.swing.JFrame {
 
         jPanelThongKe.setBackground(new java.awt.Color(204, 204, 255));
         jPanelThongKe.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanelThongKe.add(jDateChooserFormDateThongKe, new org.netbeans.lib.awtextra.AbsoluteConstraints(191, 86, 141, 34));
-        jPanelThongKe.add(jDateChooserToDateThongke, new org.netbeans.lib.awtextra.AbsoluteConstraints(472, 86, 148, 34));
 
-        lblFromThongke.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        lblFromThongke.setText("From Date :");
-        jPanelThongKe.add(lblFromThongke, new org.netbeans.lib.awtextra.AbsoluteConstraints(103, 86, 76, 34));
-
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel1.setText("To date :");
-        jPanelThongKe.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(405, 86, 55, 34));
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblStatictis.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "STT", "Order ID", "Vegetable ID", "Unit Sale", "Date Sale", "Total"
+                "ID", "Total Order", "Total Money"
             }
         ));
-        jScrollPane6.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setResizable(false);
-        }
+        jScrollPane6.setViewportView(tblStatictis);
 
         jPanelThongKe.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, 860, -1));
         jPanelThongKe.add(jScrollBar4, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 220, 20, 390));
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel7.setText("Tổng đơn bán được :");
-        jPanelThongKe.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, -1, -1));
-
-        lblTongDonThongKE.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanelThongKe.add(lblTongDonThongKE, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 146, 150, 30));
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel9.setText("Tổng Tiền :");
-        jPanelThongKe.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 150, 130, 30));
-
-        lblTongTienThongKe.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanelThongKe.add(lblTongTienThongKe, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 146, 150, 30));
-
         btnSearchThongKe.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\search_20px.png")); // NOI18N
+        btnSearchThongKe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSearchThongKeMouseClicked(evt);
+            }
+        });
         btnSearchThongKe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSearchThongKeActionPerformed(evt);
             }
         });
-        jPanelThongKe.add(btnSearchThongKe, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 90, 60, 30));
+        jPanelThongKe.add(btnSearchThongKe, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 140, 60, 30));
+
+        btnUpdateStatictis.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\reset_50px.png")); // NOI18N
+        btnUpdateStatictis.setText("Update Statictis");
+        btnUpdateStatictis.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUpdateStatictisMouseClicked(evt);
+            }
+        });
+        btnUpdateStatictis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateStatictisActionPerformed(evt);
+            }
+        });
+        jPanelThongKe.add(btnUpdateStatictis, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 130, 170, 50));
+        jPanelThongKe.add(txtStaticThangsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 142, 150, 30));
 
         jTabbedPane.addTab("Thống Kê ", new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\analytics_40px.png"), jPanelThongKe); // NOI18N
 
@@ -867,9 +910,9 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFullNameCustomerActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txtTotalOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalOrderActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_txtTotalOrderActionPerformed
 
     private void btnSearchOrderDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchOrderDetailsActionPerformed
         // TODO add your handling code here:
@@ -1153,7 +1196,7 @@ public class Home extends javax.swing.JFrame {
             if (checkValidData.checkPhoneNumber(Phone)) {
                 customersBLL.updateCustomer(NameCus,Address, City, Phone);
                 JOptionPane.showMessageDialog(this, "Cập nhật thành công");
-                setVisible(false);
+                
             }
         }
     
@@ -1215,6 +1258,154 @@ public class Home extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSearchCustomerMouseClicked
 
+    private void btnAddOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddOrderMouseClicked
+        // TODO add your handling code here:
+             if (jDateChooserOrder.getDate()==null || texAreaNoteOrder.getText().equals("")
+                || txtTotalOrder.getText().equals("") || jcomboorder.equals("choose value")
+                ) 
+{
+  JOptionPane.showMessageDialog(rootPane, "please enter information");
+        }else{
+          String note =texAreaNoteOrder.getText();
+          String total=txtTotalOrder.getText();
+                 Date date=jDateChooserOrder.getDate();
+//                 java.sql.Date sqldate=new java.sql.Date (date.getTime());
+          String customerID=jcomboorder.getSelectedItem().toString();
+          int id=Integer.parseInt(customerID);
+          loadOrder();
+          
+          
+         
+        
+         orderBLL.addOrder(id,date,Float.parseFloat(total), note);
+          JOptionPane.showMessageDialog(this, "Thêm thành công");
+      }
+    }//GEN-LAST:event_btnAddOrderMouseClicked
+
+    private void btnUpdateOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateOrderMouseClicked
+        // TODO add your handling code here:
+            if (jDateChooserOrder.getDate()==null || texAreaNoteOrder.getText().equals("")
+                || txtTotalOrder.getText().equals("") || jcomboorder.equals("choose value")
+                ) 
+{                JOptionPane.showMessageDialog(rootPane, "please enter information");
+    
+}else {
+         
+           String note =texAreaNoteOrder.getText();
+          String total=txtTotalOrder.getText();
+                 Date date=jDateChooserOrder.getDate();
+//                 java.sql.Date sqldate=new java.sql.Date (date.getTime());
+          String customerID=jcomboorder.getSelectedItem().toString();
+          int id=Integer.parseInt(customerID);
+          
+          
+         
+        
+         orderBLL.updateOrder(date,Float.parseFloat(total), note);
+          JOptionPane.showMessageDialog(this, "Update thành công");
+        }
+    }//GEN-LAST:event_btnUpdateOrderMouseClicked
+
+    private void btnDeleteOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteOrderMouseClicked
+        // TODO add your handling code here:
+         int Row =tblOrder.getSelectedRow();
+        if (Row <= -1) {
+            JOptionPane.showMessageDialog(this, "Vui long chon dong can xoa");
+        } else {
+            int yes = JOptionPane.showConfirmDialog(rootPane, "Ban co chac muon xoa",
+                    "Thông Báo Xác Nhận Xoá", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);         
+            if (yes == JOptionPane.YES_OPTION) {
+                String orderId = tblOrder.getModel().getValueAt(Row, 0).toString();
+                int id = Integer.parseInt(orderId);
+                orderBLL.deleteOrder(id);
+                JOptionPane.showMessageDialog(rootPane, "Da xoa");
+                loadOrder();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, " Đã Huỷ Thao Tac");
+            }
+        }
+    }//GEN-LAST:event_btnDeleteOrderMouseClicked
+
+    private void lblSearchOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSearchOrderMouseClicked
+        // TODO add your handling code here:
+         if (txtSearchOrder.getText().equals(" ")) {
+            JOptionPane.showMessageDialog(this, "Vui long nhap vao id can tim ");
+        } else {
+            DefaultTableModel model = new DefaultTableModel();
+            Object[] columns = { "OrderID", "CustomerID","Total","Date","Note" };
+            model.setColumnIdentifiers(columns);
+
+            String CustomereId = txtSearchOrder.getText();
+            int id = Integer.parseInt(CustomereId);
+
+             Order1 order1=orderBLL.findOrder(id);
+            model.addRow(new Object[] { order1.getOrderID(),order1.getCustomerID(),order1.getDate(),order1.getNote()});
+
+           tblOrder.setModel(model);
+        }
+    }//GEN-LAST:event_lblSearchOrderMouseClicked
+
+    private void btnSearchOrderDetailsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchOrderDetailsMouseClicked
+        // TODO add your handling code here:
+         if (txtSearchOrderdetails.getText().equals(" ")) {
+            JOptionPane.showMessageDialog(this, "Vui long nhap vao id can tim ");
+        } else {
+            DefaultTableModel model = new DefaultTableModel();
+            Object[] columns = { "Id", "OrderID","VegetableID","VegetableName","Quantity","Price" };
+            model.setColumnIdentifiers(columns);
+
+            String CustomereId = txtSearchOrderdetails.getText();
+            int id = Integer.parseInt(CustomereId);
+
+             Order1 order1=orderBLL.findOrder(id);
+            model.addRow(new Object[] { order1.getOrderID(),order1.getCustomerID(),order1.getDate(),order1.getNote()});
+
+           tblOrder.setModel(model);
+        }
+    }//GEN-LAST:event_btnSearchOrderDetailsMouseClicked
+
+    private void btnUpdateStatictisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateStatictisActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUpdateStatictisActionPerformed
+
+    private void btnUpdateStatictisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateStatictisMouseClicked
+                        // TODO add your handling code here:
+            
+            
+      ;
+            List<Order1> listOrder1s =orderBLL.getAllOrder();
+            float x=0,sum=0;
+            int dem=0;
+            for (int i = 0; i < listOrder1s.size(); i++) {
+              x= (listOrder1s.get(i).getTotal());
+              sum=sum+x;
+              dem++;
+            }
+            sbll.addStatic(dem, sum);
+            loadStatictis();
+            
+        
+    }//GEN-LAST:event_btnUpdateStatictisMouseClicked
+
+    private void btnSearchThongKeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchThongKeMouseClicked
+        // TODO add your handling code here:
+         if (txtStaticThangsearch.getText().equals(" ")) {
+            JOptionPane.showMessageDialog(this, "Vui long nhap vao id can tim ");
+        } else {
+            DefaultTableModel model = new DefaultTableModel();
+            Object[] columns = { "ID", "Total Order","Total Money" };
+            model.setColumnIdentifiers(columns);
+
+            String stID = txtStaticThangsearch.getText();
+            int id = Integer.parseInt(stID);
+
+             Statistics statistics=sbll.findStatic(id);
+            model.addRow(new Object[] { statistics.getId(),statistics.getTotalOrder(),statistics.getTotalMoney()});
+
+           tblStatictis.setModel(model);
+        }
+    }//GEN-LAST:event_btnSearchThongKeMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1226,6 +1417,7 @@ public class Home extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Home().setVisible(true);
+              //  String t=jDateChooserOrder.getDate().getTime();
               
             }
         });
@@ -1252,16 +1444,11 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btnUpdateCategory;
     private javax.swing.JButton btnUpdateCustomers;
     private javax.swing.JButton btnUpdateNhapHang;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnUpdateOrder;
+    private javax.swing.JButton btnUpdateStatictis;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboVegetableCategory;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooserFormDateThongKe;
-    private com.toedter.calendar.JDateChooser jDateChooserFrom;
-    private com.toedter.calendar.JDateChooser jDateChooserToDateThongke;
-    private com.toedter.calendar.JDateChooser jDateChooserTodate;
-    private javax.swing.JLabel jLabel1;
+    private com.toedter.calendar.JDateChooser jDateChooserOrder;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
@@ -1269,9 +1456,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanelHoaDon;
     private javax.swing.JPanel jPanelKhachHang;
     private javax.swing.JPanel jPanelLoaiSanPham;
@@ -1292,29 +1477,24 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTableCategory;
     private javax.swing.JTable jTableCustomers;
     private javax.swing.JTable jTableNhapHang;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JComboBox<String> jcomboorder;
     private javax.swing.JTable jorderDetails;
     private javax.swing.JLabel lblAddressCustomer;
     private javax.swing.JLabel lblAmountNhapHang;
     private javax.swing.JLabel lblCatgoryName;
     private javax.swing.JLabel lblCiTyCustomer;
-    private javax.swing.JLabel lblFromThongke;
-    private javax.swing.JLabel lblFromdateOrderDetails;
     private javax.swing.JLabel lblFullNameCustomer;
     private javax.swing.JLabel lblImageVegetable;
     private javax.swing.JLabel lblNoteOrder;
     private javax.swing.JLabel lblPriceNhapHang;
     private javax.swing.JLabel lblSearchOrder;
-    private javax.swing.JLabel lblTodateOrderDetails;
-    private javax.swing.JLabel lblTongDonThongKE;
-    private javax.swing.JLabel lblTongTienThongKe;
     private javax.swing.JLabel lblUnit;
     private javax.swing.JLabel lblVegetable;
     private javax.swing.JTable tblOrder;
+    private javax.swing.JTable tblStatictis;
     private javax.swing.JTextArea texAreaNoteOrder;
     private javax.swing.JTextField txtAddressCustomers;
     private javax.swing.JTextField txtAmountNhapHang;
@@ -1329,6 +1509,8 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTextField txtSearchNhapHang;
     private javax.swing.JTextField txtSearchOrder;
     private javax.swing.JTextField txtSearchOrderdetails;
+    private javax.swing.JTextField txtStaticThangsearch;
+    private javax.swing.JTextField txtTotalOrder;
     private javax.swing.JTextField txtUnitNhapHang;
     private javax.swing.JTextField txtUrl;
     private javax.swing.JTextField txtVegetableID;

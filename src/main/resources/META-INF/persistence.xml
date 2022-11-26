@@ -3,11 +3,11 @@
   <persistence-unit name="quanlybanhang_QuanLyBanHang_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>DTO.Order1</class>
-    <class>DTO.Statistics</class>
     <class>DTO.Orderdetail</class>
     <class>DTO.Category</class>
     <class>DTO.Customers</class>
     <class>DTO.Vegetable</class>
+    <class>DTO.Statistics</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/market2?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

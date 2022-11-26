@@ -4,7 +4,8 @@
  */
 package DAL;
 
-import DTO.Category;
+import DTO.*;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -33,12 +34,20 @@ public class HibernateUtils {
         Configuration conf = new Configuration();
 
         Properties p = new Properties();
-        p.put(Environment.DIALECT, "org.hibernate.dialect.HSQLDialect");
+        p.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
         p.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
         p.put(Environment.URL, "jdbc:mysql://localhost:3306/market2");
         p.put(Environment.USER, "root");
         p.put(Environment.PASS, "");
         p.put(Environment.SHOW_SQL, "true");
+        
+        conf.addAnnotatedClass(Category.class);
+        conf.addAnnotatedClass(Vegetable.class);
+        conf.addAnnotatedClass(Customers.class);
+        conf.addAnnotatedClass(Order1.class);
+        conf.addAnnotatedClass(Statistics.class);
+        conf.addAnnotatedClass(Orderdetail.class);
+       
 
         conf.setProperties(p);
         ServiceRegistry registry = new StandardServiceRegistryBuilder().applySettings(conf.getProperties()).build();

@@ -5,8 +5,10 @@
 package BLL;
 
 import DAL.OrderDAL;
+import DTO.Customers;
 import DTO.Order1;
 import DTO.Vegetable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,8 +17,31 @@ import java.util.List;
  */
 public class OrderBLL {
     OrderDAL odal=new OrderDAL();
+    Order1 order=new Order1();
      public  List<Order1> getAllOrder() {
         return odal.getALLOrder();
     }
-    
+     
+        public void addOrder( int id,Date Date,float Total,String note){
+        order.setCustomerID(id);
+        order.setDate(Date);
+        order.setTotal(Total);
+        order.setNote(note); //role = 1 is customer; role = 2 is  employee
+        odal.addOrder(order);
+}
+        public void updateOrder(Date date,float total,String note){
+       
+        order.setDate(date);
+        order.setTotal(total);
+        order.setNote(note);
+     
+     
+    }
+    public void deleteOrder(int id) {
+        odal.deleteOrder(id);
+}
+
+    public Order1 findOrder(int id) {
+        return odal.findOder(id);
+    }
 }

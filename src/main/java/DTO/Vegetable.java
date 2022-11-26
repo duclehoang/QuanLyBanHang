@@ -5,6 +5,7 @@
 package DTO;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -36,6 +37,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Vegetable.findByImage", query = "SELECT v FROM Vegetable v WHERE v.image = :image"),
     @NamedQuery(name = "Vegetable.findByPrice", query = "SELECT v FROM Vegetable v WHERE v.price = :price")})
 public class Vegetable implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vegetableID")
+    private Collection<Statistics> statisticsCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -178,6 +182,15 @@ public class Vegetable implements Serializable {
     @Override
     public String toString() {
         return "DTO.Vegetable[ vegetableID=" + vegetableID + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Statistics> getStatisticsCollection() {
+        return statisticsCollection;
+    }
+
+    public void setStatisticsCollection(Collection<Statistics> statisticsCollection) {
+        this.statisticsCollection = statisticsCollection;
     }
     
 }

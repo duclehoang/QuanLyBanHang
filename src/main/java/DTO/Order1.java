@@ -5,6 +5,7 @@
 package DTO;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -38,6 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Order1.findByTotal", query = "SELECT o FROM Order1 o WHERE o.total = :total")})
 public class Order1 implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderID")
+    private Collection<Statistics> statisticsCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -56,7 +60,7 @@ public class Order1 implements Serializable {
     private String note;
     @JoinColumn(name = "CustomerID", referencedColumnName = "CustomerID", nullable = false)
     @ManyToOne(optional = false)
-    private Customers customerID;
+    private int customerID;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderID")
     private List<Orderdetail> orderdetailList;
 
@@ -106,11 +110,11 @@ public class Order1 implements Serializable {
         this.note = note;
     }
 
-    public Customers getCustomerID() {
+    public int getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(Customers customerID) {
+    public void setCustomerID(int customerID) {
         this.customerID = customerID;
     }
 
@@ -146,6 +150,15 @@ public class Order1 implements Serializable {
     @Override
     public String toString() {
         return "DTO.Order1[ orderID=" + orderID + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Statistics> getStatisticsCollection() {
+        return statisticsCollection;
+    }
+
+    public void setStatisticsCollection(Collection<Statistics> statisticsCollection) {
+        this.statisticsCollection = statisticsCollection;
     }
     
 }
