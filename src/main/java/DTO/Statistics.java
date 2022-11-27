@@ -43,7 +43,7 @@ public class Statistics implements Serializable {
     private float totalMoney;
     @JoinColumn(name = "OrderID", referencedColumnName = "OrderID", nullable = false)
     @ManyToOne(optional = false)
-    private Order1 orderID;
+    private Order orderID;
 
     public Statistics() {
     }
@@ -82,11 +82,11 @@ public class Statistics implements Serializable {
         this.totalMoney = totalMoney;
     }
 
-    public Order1 getOrderID() {
+    public Order getOrderID() {
         return orderID;
     }
 
-    public void setOrderID(Order1 orderID) {
+    public void setOrderID(Order orderID) {
         this.orderID = orderID;
     }
 

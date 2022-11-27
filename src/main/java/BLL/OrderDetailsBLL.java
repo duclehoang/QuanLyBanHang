@@ -6,7 +6,7 @@ package BLL;
 
 import DAL.HibernateUtils;
 import DAL.OrderDetailsDAL;
-import DTO.Order1;
+import DTO.Order;
 import DTO.Orderdetail;
 import java.util.List;
 import org.hibernate.Session;

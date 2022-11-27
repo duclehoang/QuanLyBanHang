@@ -13,7 +13,7 @@ import BLL.VegetableBLL;
 import DTO.Category;
 import DTO.Customers;
 import DTO.Statistics;
-import DTO.Order1;
+import DTO.Order;
 import DTO.Orderdetail;
 import DTO.Vegetable;
 import java.awt.Image;
@@ -40,17 +40,17 @@ import BLL.OrderDetailsBLL;
  * @author nguye
  */
 public class Home extends javax.swing.JFrame {
-    CategoryBLL categoryBLL=new CategoryBLL();
-    VegetableBLL vegetableBLL=new VegetableBLL();
-    CustomersBLL customersBLL=new CustomersBLL();
-    Customers customers=new Customers();
-    OrderBLL orderBLL=new OrderBLL();
-    Order1 order1=new Order1();
-    Orderdetail orderdetail=new Orderdetail();
-    OrderDetailsBLL orderDetailsBLL=new OrderDetailsBLL();
-    StatisticsBLL sbll=new StatisticsBLL();
-    Statistics s=new Statistics();
-    CheckValidData checkValidData=new CheckValidData();
+    CategoryBLL categoryBLL;
+    VegetableBLL vegetableBLL;
+    CustomersBLL customersBLL;
+    Customers customers;
+    OrderBLL orderBLL;
+    Order order1;
+    Orderdetail orderdetail;
+    OrderDetailsBLL orderDetailsBLL;
+    StatisticsBLL sbll;
+    Statistics s;
+    CheckValidData checkValidData;
 
     /**
      * Creates new form MainFrame
@@ -59,9 +59,6 @@ public class Home extends javax.swing.JFrame {
     public Home() {
         initComponents();
         setResizable(false);
-       loadCategory();
-//        loadVegetable();
-loadStatictis();
     }
     
 //    private void loadCustomer() {
@@ -118,15 +115,12 @@ loadStatictis();
             DefaultTableModel model = new DefaultTableModel();
       List<Customers> listCustomer =customersBLL.getListCustomers();
         for (int i = 0; i < listCustomer.size(); i++) {
-           
            model.addRow(new Object[]{
                listCustomer.get(i).getFullname(),
                listCustomer.get(i).getAddress(),
                listCustomer.get(i).getCity(),
                listCustomer.get(i).getPhoneNumber()
-              
-                   
-           });
+              });
         }
         jTableCustomers.setModel(model);
     }
@@ -134,7 +128,7 @@ loadStatictis();
     
         public  void loadOrder(){
             DefaultTableModel model = new DefaultTableModel();
-      List<Order1> listOrder1s =orderBLL.getAllOrder();
+      List<Order> listOrder1s =orderBLL.getAllOrder();
        List<Customers> customers =customersBLL.getListCustomers();
        for (int i = 0; i < listOrder1s.size(); i++) {
            jcomboorder.addItem(String.valueOf(customers.get(i).getCustomerID()));
@@ -284,7 +278,7 @@ loadStatictis();
         btnAddOrder = new javax.swing.JButton();
         btnDeleteOrder = new javax.swing.JButton();
         btnUpdateOrder = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnResetOrder = new javax.swing.JButton();
         lblSearchOrder = new javax.swing.JLabel();
         txtSearchOrder = new javax.swing.JTextField();
         jDateChooserOrder = new com.toedter.calendar.JDateChooser();
@@ -303,6 +297,7 @@ loadStatictis();
         btnSearchThongKe = new javax.swing.JButton();
         btnUpdateStatictis = new javax.swing.JButton();
         txtStaticThangsearch = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Quản Lý Bán Hàng");
@@ -537,6 +532,11 @@ loadStatictis();
                 "Category ID", "Name"
             }
         ));
+        jTableCategory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableCategoryMouseClicked(evt);
+            }
+        });
         jScrollPane7.setViewportView(jTableCategory);
 
         jPanelLoaiSanPham.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 907, 330));
@@ -617,6 +617,11 @@ loadStatictis();
         jPanelKhachHang.add(btnDeleteCustomers, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 80, 50, 50));
 
         btnResetCustomer.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\reset_50px.png")); // NOI18N
+        btnResetCustomer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnResetCustomerMouseClicked(evt);
+            }
+        });
         jPanelKhachHang.add(btnResetCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 170, 50, 50));
 
         jTableCustomers.setModel(new javax.swing.table.DefaultTableModel(
@@ -660,7 +665,7 @@ loadStatictis();
 
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel11.setText("Phone Number :");
-        jPanelKhachHang.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(85, 280, 90, -1));
+        jPanelKhachHang.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 280, 130, -1));
 
         jTabbedPane.addTab("Khách Hàng", new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\administrator_male_40px.png"), jPanelKhachHang); // NOI18N
 
@@ -730,10 +735,15 @@ loadStatictis();
         });
         jPanelHoaDon.add(btnUpdateOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 110, 60, 50));
 
-        jButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\reset_50px.png")); // NOI18N
-        jButton3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanelHoaDon.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 110, 50, 50));
+        btnResetOrder.setIcon(new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\reset_50px.png")); // NOI18N
+        btnResetOrder.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnResetOrder.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnResetOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnResetOrderMouseClicked(evt);
+            }
+        });
+        jPanelHoaDon.add(btnResetOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 110, 50, 50));
 
         lblSearchOrder.setBackground(new java.awt.Color(255, 255, 255));
         lblSearchOrder.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -763,6 +773,11 @@ loadStatictis();
                 "Order ID", "CustomerID", "Total", "Date", "Note"
             }
         ));
+        tblOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblOrderMouseClicked(evt);
+            }
+        });
         jScrollPane5.setViewportView(tblOrder);
         if (tblOrder.getColumnModel().getColumnCount() > 0) {
             tblOrder.getColumnModel().getColumn(2).setResizable(false);
@@ -854,6 +869,9 @@ loadStatictis();
         });
         jPanelThongKe.add(btnUpdateStatictis, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 130, 170, 50));
         jPanelThongKe.add(txtStaticThangsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 142, 150, 30));
+
+        jLabel1.setText("Tìm kiếm :");
+        jPanelThongKe.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 150, -1, -1));
 
         jTabbedPane.addTab("Thống Kê ", new javax.swing.ImageIcon("C:\\Users\\nguye\\Documents\\NetBeansProjects\\QuanLyBanHang\\src\\main\\java\\images\\analytics_40px.png"), jPanelThongKe); // NOI18N
 
@@ -1208,7 +1226,7 @@ loadStatictis();
            // TODO add your handling code here:
          int i = jTableCustomers.getSelectedRow();
 
-        int column = 2;
+        int column = 1;
         txtFullNameCustomer.setText(jTableCustomers.getModel().getValueAt(i, column++).toString());
         txtAddressCustomers.setText(jTableCustomers.getModel().getValueAt(i, column++).toString());
         txtCityCustomer.setText(jTableCustomers.getModel().getValueAt(i, column++).toString());
@@ -1338,7 +1356,7 @@ loadStatictis();
             String CustomereId = txtSearchOrder.getText();
             int id = Integer.parseInt(CustomereId);
 
-             Order1 order1=orderBLL.findOrder(id);
+             Order order1=orderBLL.findOrder(id);
             model.addRow(new Object[] { order1.getOrderID(),order1.getCustomerID(),order1.getDate(),order1.getNote()});
 
            tblOrder.setModel(model);
@@ -1357,7 +1375,7 @@ loadStatictis();
             String CustomereId = txtSearchOrderdetails.getText();
             int id = Integer.parseInt(CustomereId);
 
-             Order1 order1=orderBLL.findOrder(id);
+             Order order1=orderBLL.findOrder(id);
             model.addRow(new Object[] { order1.getOrderID(),order1.getCustomerID(),order1.getDate(),order1.getNote()});
 
            tblOrder.setModel(model);
@@ -1372,8 +1390,8 @@ loadStatictis();
                         // TODO add your handling code here:
             
             
-      ;
-            List<Order1> listOrder1s =orderBLL.getAllOrder();
+     
+            List<Order> listOrder1s =orderBLL.getAllOrder();
             float x=0,sum=0;
             int dem=0;
             for (int i = 0; i < listOrder1s.size(); i++) {
@@ -1382,7 +1400,7 @@ loadStatictis();
               dem++;
             }
             sbll.addStatic(dem, sum);
-            loadStatictis();
+            
             
         
     }//GEN-LAST:event_btnUpdateStatictisMouseClicked
@@ -1405,6 +1423,46 @@ loadStatictis();
            tblStatictis.setModel(model);
         }
     }//GEN-LAST:event_btnSearchThongKeMouseClicked
+
+    private void btnResetCustomerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetCustomerMouseClicked
+        // TODO add your handling code here:
+        txtFullNameCustomer.setText(" ");
+        txtAddressCustomers.setText(" ");
+        txtCityCustomer.setText(" ");
+        txtPhoneNUmberCustomer.setText(" ");
+        loadCustomers();
+        
+    }//GEN-LAST:event_btnResetCustomerMouseClicked
+
+    private void jTableCategoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableCategoryMouseClicked
+        // TODO add your handling code here:
+            // TODO add your handling code here:
+         int i = jTableCategory.getSelectedRow();
+
+        int column = 1;
+        txtNameCategoryName.setText(jTableCategory.getModel().getValueAt(i, column++).toString());
+      
+        
+    }//GEN-LAST:event_jTableCategoryMouseClicked
+
+    private void tblOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblOrderMouseClicked
+        // TODO add your handling code here:
+         int i = tblOrder.getSelectedRow();
+
+        int column = 1;
+    
+        txtTotalOrder.setText(tblOrder.getModel().getValueAt(i, column++).toString());
+        texAreaNoteOrder.setText(tblOrder.getModel().getValueAt(i, column++).toString());
+    
+        
+    }//GEN-LAST:event_tblOrderMouseClicked
+
+    private void btnResetOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetOrderMouseClicked
+        // TODO add your handling code here:
+        texAreaNoteOrder.setText("");
+        txtTotalOrder.setText(" ");
+        jDateChooserOrder.setDate(null);
+    }//GEN-LAST:event_btnResetOrderMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1436,6 +1494,7 @@ loadStatictis();
     private javax.swing.JButton btnResetCategory;
     private javax.swing.JButton btnResetCustomer;
     private javax.swing.JButton btnResetNhapHang;
+    private javax.swing.JButton btnResetOrder;
     private javax.swing.JButton btnSearchCustomer;
     private javax.swing.JButton btnSearchFindCategory;
     private javax.swing.JButton btnSearchNhapHang;
@@ -1446,9 +1505,9 @@ loadStatictis();
     private javax.swing.JButton btnUpdateNhapHang;
     private javax.swing.JButton btnUpdateOrder;
     private javax.swing.JButton btnUpdateStatictis;
-    private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboVegetableCategory;
     private com.toedter.calendar.JDateChooser jDateChooserOrder;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;

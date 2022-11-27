@@ -34,7 +34,7 @@ public class HibernateUtils {
         Configuration conf = new Configuration();
 
         Properties p = new Properties();
-        p.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
+        p.put(Environment.DIALECT, "org.hibernate.dialect.HQLDialect");
         p.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
         p.put(Environment.URL, "jdbc:mysql://localhost:3306/market2");
         p.put(Environment.USER, "root");
@@ -44,7 +44,7 @@ public class HibernateUtils {
         conf.addAnnotatedClass(Category.class);
         conf.addAnnotatedClass(Vegetable.class);
         conf.addAnnotatedClass(Customers.class);
-        conf.addAnnotatedClass(Order1.class);
+        conf.addAnnotatedClass(Order.class);
         conf.addAnnotatedClass(Statistics.class);
         conf.addAnnotatedClass(Orderdetail.class);
        

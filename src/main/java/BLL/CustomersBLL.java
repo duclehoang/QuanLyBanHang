@@ -26,7 +26,7 @@ public class CustomersBLL {
         c.setFullname(name);
         c.setAddress(Address);
         c.setCity(City);
-        c.setPhoneNumber(name); //role = 1 is customer; role = 2 is  employee
+        c.setPhoneNumber(name); 
         customerDAL.addCustomers(c);
 }
 

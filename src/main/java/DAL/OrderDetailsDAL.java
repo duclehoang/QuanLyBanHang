@@ -4,7 +4,7 @@
  */
 package DAL;
 
-import DTO.Order1;
+import DTO.Order;
 import DTO.Orderdetail;
 import java.util.List;
 import org.hibernate.Session;

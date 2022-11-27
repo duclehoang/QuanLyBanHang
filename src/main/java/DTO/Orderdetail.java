@@ -53,7 +53,7 @@ public class Orderdetail implements Serializable {
     private Vegetable vegetableID;
     @JoinColumn(name = "OrderID", referencedColumnName = "OrderID", nullable = false)
     @ManyToOne(optional = false)
-    private Order1 orderID;
+    private Order orderID;
 
     public Orderdetail() {
     }
@@ -109,11 +109,11 @@ public class Orderdetail implements Serializable {
         this.vegetableID = vegetableID;
     }
 
-    public Order1 getOrderID() {
+    public Order getOrderID() {
         return orderID;
     }
 
-    public void setOrderID(Order1 orderID) {
+    public void setOrderID(Order orderID) {
         this.orderID = orderID;
     }
 

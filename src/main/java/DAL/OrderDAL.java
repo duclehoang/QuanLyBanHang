@@ -1,7 +1,7 @@
 package DAL;
 
 import DTO.Customers;
-import DTO.Order1;
+import DTO.Order;
 import DTO.Vegetable;
 import java.util.List;
 import org.hibernate.Session;
@@ -9,13 +9,13 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public class OrderDAL {
-    Order1 order =new Order1();
+    Order order =new Order();
     Session session;
     Transaction transaction;
     
-  public List<Order1> getALLOrder() {
+  public List<Order> getALLOrder() {
 
-    List <Order1> order = null;
+    List <Order> order = null;
     try {
         session = HibernateUtils.getFactory().openSession();
         transaction=session.beginTransaction();           
@@ -32,7 +32,7 @@ public class OrderDAL {
     return order;      
 }
   
-    public Order1 addOrder(Order1 order1) {
+    public Order addOrder(Order order1) {
       
         try {
             session = HibernateUtils.getFactory().openSession();
@@ -53,7 +53,7 @@ public class OrderDAL {
  }
     
     
-  public void updateOrder(Order1 order) {
+  public void updateOrder(Order order) {
         try {
             session = HibernateUtils.getFactory().openSession();
             transaction = session.beginTransaction();
@@ -75,7 +75,7 @@ public class OrderDAL {
           public void deleteOrder(int id) {          
         try {
             session = HibernateUtils.getFactory().openSession();
-            Order1 order1 = session.get(Order1.class, id);          
+            Order order1 = session.get(Order.class, id);          
           
                 transaction = session.beginTransaction();
                 session.delete(order1);
@@ -92,12 +92,12 @@ public class OrderDAL {
   }
           
           
-             public Order1 findOder(int id) {
+             public Order findOder(int id) {
        
         try {
             session = HibernateUtils.getFactory().openSession();
         transaction=  session.beginTransaction();
-             order = session.get(Order1.class, id);
+             order = session.get(Order.class, id);
             session.getTransaction().commit();
         } catch (Exception e) {
             if (transaction != null) {

@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Order1.findByOrderID", query = "SELECT o FROM Order1 o WHERE o.orderID = :orderID"),
     @NamedQuery(name = "Order1.findByDate", query = "SELECT o FROM Order1 o WHERE o.date = :date"),
     @NamedQuery(name = "Order1.findByTotal", query = "SELECT o FROM Order1 o WHERE o.total = :total")})
-public class Order1 implements Serializable {
+public class Order implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderID")
     private Collection<Statistics> statisticsCollection;
@@ -64,14 +64,14 @@ public class Order1 implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderID")
     private List<Orderdetail> orderdetailList;
 
-    public Order1() {
+    public Order() {
     }
 
-    public Order1(Integer orderID) {
+    public Order(Integer orderID) {
         this.orderID = orderID;
     }
 
-    public Order1(Integer orderID, Date date, float total, String note) {
+    public Order(Integer orderID, Date date, float total, String note) {
         this.orderID = orderID;
         this.date = date;
         this.total = total;
@@ -137,10 +137,10 @@ public class Order1 implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Order1)) {
+        if (!(object instanceof Order)) {
             return false;
         }
-        Order1 other = (Order1) object;
+        Order other = (Order) object;
         if ((this.orderID == null && other.orderID != null) || (this.orderID != null && !this.orderID.equals(other.orderID))) {
             return false;
         }

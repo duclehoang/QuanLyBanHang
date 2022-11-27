@@ -50,7 +50,7 @@ public class Customers implements Serializable {
     @Column(name = "PhoneNumber", nullable = false, length = 10)
     private String phoneNumber;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerID")
-    private List<Order1> order1List;
+    private List<Order> order1List;
 
     public Customers() {
     }
@@ -106,11 +106,11 @@ public class Customers implements Serializable {
     }
 
     @XmlTransient
-    public List<Order1> getOrder1List() {
+    public List<Order> getOrder1List() {
         return order1List;
     }
 
-    public void setOrder1List(List<Order1> order1List) {
+    public void setOrder1List(List<Order> order1List) {
         this.order1List = order1List;
     }
 

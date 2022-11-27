@@ -5,7 +5,7 @@
 package BLL;
 
 import DAL.StatisticsDAL;
-import DTO.Order1;
+import DTO.Order;
 import DTO.Statistics;
 import java.util.Date;
 import java.util.List;

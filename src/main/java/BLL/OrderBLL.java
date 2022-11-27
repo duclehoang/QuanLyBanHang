@@ -6,7 +6,7 @@ package BLL;
 
 import DAL.OrderDAL;
 import DTO.Customers;
-import DTO.Order1;
+import DTO.Order;
 import DTO.Vegetable;
 import java.util.Date;
 import java.util.List;
@@ -17,8 +17,8 @@ import java.util.List;
  */
 public class OrderBLL {
     OrderDAL odal=new OrderDAL();
-    Order1 order=new Order1();
-     public  List<Order1> getAllOrder() {
+    Order order=new Order();
+     public  List<Order> getAllOrder() {
         return odal.getALLOrder();
     }
      
@@ -41,7 +41,7 @@ public class OrderBLL {
         odal.deleteOrder(id);
 }
 
-    public Order1 findOrder(int id) {
+    public Order findOrder(int id) {
         return odal.findOder(id);
     }
 }
